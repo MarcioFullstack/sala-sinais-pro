@@ -13,10 +13,8 @@ services:
       - key: ADMIN_PASSWORD
         value: 123456
       - key: JWT_SECRET
-        generateValue: true
-      - key: PORT
-        value: 8080
+        value: sala_sinais_jwt_secret_2024_production_key
     autoDeploy: true
     branch: main
-    healthCheckPath: /
+    healthCheckPath: /health
     preDeployCommand: cd backend && npm install

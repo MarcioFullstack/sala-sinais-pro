@@ -1,22 +1,38 @@
-# Configuração para Render.com
+# 🚀 Deploy no Render - Sala de Sinais PRO
 
-## Variáveis de Ambiente Necessárias:
+## ⚙️ Configuração Automática
+O arquivo `render.yaml` já está configurado! O Render detectará automaticamente.
+
+## 🔧 Comandos do Render
+
+### Build Command (Comando de construção):
+```bash
+cd backend && npm install
+```
+
+### Start Command (Comando de inicialização):
+```bash
+node backend/server.js
+```
+
+### Pre-deploy Command (Comando de pré-implantação):
+```bash
+cd backend && npm install
+```
+
+## 🔐 Variáveis de Ambiente Necessárias
+
+**COPIE E COLE NO RENDER:**
+```
 NODE_ENV=production
 ADMIN_EMAIL=admin@csi.invest
 ADMIN_PASSWORD=123456
-JWT_SECRET=seu_jwt_secret_super_seguro_aqui
-PORT=8080
+JWT_SECRET=sala_sinais_jwt_secret_2024_production_key
+```
 
-## Comandos do Render:
-
-### Build Command (Comando de construção):
-cd backend && npm install
-
-### Start Command (Comando de inicialização):
-node backend/server.js
-
-### Pre-deploy Command (Comando de pré-implantação):
-cd backend && npm install
+## 🩺 Health Check
+- URL: `/health`
+- Verifica se a aplicação está funcionando
 
 ## Configurações Automáticas:
 - ✅ Auto-deploy habilitado
