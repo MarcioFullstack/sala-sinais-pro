@@ -19,6 +19,8 @@ services:
         value: "true"
       - key: NODE_OPTIONS
         value: "--max-old-space-size=512"
+      # 🍃 MongoDB - Configure manualmente no Render Dashboard
+      # MONGO_URI: mongodb+srv://user:pass@cluster.mongodb.net/sala-sinais-pro
     healthCheckPath: /health
     autoDeploy: true
     branch: main

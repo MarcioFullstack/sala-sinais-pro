@@ -16,6 +16,8 @@
     "stripe": "^17.0.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test-db": "node test-mongodb.js",
+    "dev": "NODE_ENV=development node server.js"
   }
 }

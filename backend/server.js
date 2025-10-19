@@ -69,11 +69,28 @@ app.get('/health', (req, res) => {
 // serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')))
 
+// 🍃 MongoDB Configuration
 const mongoUri = process.env.MONGO_URI
 if (mongoUri) {
-  mongoose.connect(mongoUri).then(() => console.log('✅ MongoDB connected')).catch(e => console.error('Mongo error', e))
+  const mongoConfig = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    retryWrites: true,
+    w: 'majority'
+  }
+  
+  mongoose.connect(mongoUri, mongoConfig)
+    .then(() => {
+      console.log('✅ MongoDB conectado com sucesso!')
+      console.log(`🗄️  Database: ${mongoose.connection.name}`)
+    })
+    .catch(e => {
+      console.error('❌ Erro ao conectar MongoDB:', e.message)
+      console.warn('⚠️  Continuando em stub mode...')
+    })
 } else {
-  console.warn('⚠️  MONGO_URI not set - running in stub mode')
+  console.warn('⚠️  MONGO_URI não definida - rodando em stub mode')
+  console.log('💡 Para usar MongoDB, configure MONGO_URI no .env')
 }
 
 app.use('/api/checkout', checkoutRoutes)
@@ -91,6 +108,23 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
   return stripeWebhook(req, res)
 })
 
+// 🔍 Database Status Endpoint
+app.get('/api/admin/test-db', (req, res) => {
+  const dbStatus = {
+    status: mongoose.connection.readyState,
+    statusText: ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'][mongoose.connection.readyState],
+    mongoUri: process.env.MONGO_URI ? 'Configured' : 'Missing',
+    database: mongoose.connection.name || 'Not connected',
+    mode: process.env.MONGO_URI ? 'MongoDB' : 'Stub Mode'
+  }
+  
+  res.json({
+    database: dbStatus,
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  })
+})
+
 // Rota de debug específica para admin
 app.get('/debug/admin', (req, res) => {
   res.json({
@@ -99,7 +133,8 @@ app.get('/debug/admin', (req, res) => {
     authMiddleware: 'Loaded',
     environment: process.env.NODE_ENV,
     adminEmail: process.env.ADMIN_EMAIL ? 'Set' : 'Missing',
-    jwtSecret: process.env.JWT_SECRET ? 'Set' : 'Missing'
+    jwtSecret: process.env.JWT_SECRET ? 'Set' : 'Missing',
+    database: mongoose.connection.readyState === 1 ? 'MongoDB Connected' : 'Stub Mode'
   })
 })
 
@@ -109,8 +144,15 @@ app.listen(port, '0.0.0.0', () => {
   console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`)
   console.log(`📧 Admin Email: ${process.env.ADMIN_EMAIL || 'not set'}`)
   console.log(`🔑 JWT Secret: ${process.env.JWT_SECRET ? 'configured' : 'not set'}`)
-  console.log(`💾 MongoDB: ${process.env.MONGO_URI ? 'connected' : 'stub mode'}`)
+  
+  // MongoDB Status com mais detalhes
+  const mongoStatus = process.env.MONGO_URI ? 
+    (mongoose.connection.readyState === 1 ? '🍃 MongoDB Connected' : '🟡 MongoDB Configured') : 
+    '💾 Stub Mode (In-Memory)'
+  console.log(`💾 Database: ${mongoStatus}`)
+  
   console.log(`🏠 Access: http://localhost:${port}`)
   console.log(`🔐 Admin: http://localhost:${port}/admin.html`)
   console.log(`❤️ Health: http://localhost:${port}/health`)
+  console.log(`🔍 DB Test: http://localhost:${port}/api/admin/test-db`)
 })
