@@ -1,0 +1,30 @@
+{
+  "name": "sala-sinais-pro",
+  "version": "1.0.0",
+  "description": "Sistema completo para gerenciamento de sala de sinais de trading",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "cd backend && npm run dev",
+    "build": "cd backend && npm install",
+    "postinstall": "cd backend && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "trading",
+    "signals",
+    "telegram",
+    "mercado-pago",
+    "nodejs",
+    "express"
+  ],
+  "author": "MarcioFullstack",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MarcioFullstack/sala-sinais-pro.git"
+  }
+}

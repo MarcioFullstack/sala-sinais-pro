@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: sala-sinais-pro
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: node backend/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_EMAIL
+        value: admin@csi.invest
+      - key: ADMIN_PASSWORD
+        value: 123456
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 8080
+    autoDeploy: true
+    branch: main
+    healthCheckPath: /
+    preDeployCommand: cd backend && npm install
