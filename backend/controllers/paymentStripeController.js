@@ -1,5 +1,6 @@
 import Stripe from 'stripe'
 import User from '../models/User.js'
+import { addUserToAdmin } from '../routes/admin-simple.js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy')
 
@@ -115,7 +116,7 @@ export async function stripeWebhook(req, res) {
         const validUntil = new Date()
         validUntil.setDate(validUntil.getDate() + 30)
 
-        // Atualizar ou criar usuário
+        // Atualizar ou criar usuário no banco de dados
         try {
           const user = await User.findOneAndUpdate(
             { email: email.toLowerCase() },
@@ -131,13 +132,22 @@ export async function stripeWebhook(req, res) {
             { upsert: true, new: true }
           )
 
-          console.log('✅ Usuário Stripe atualizado:', email, 'Plan:', plan, 'Válido até:', validUntil.toLocaleDateString())
-
-          // TODO: Enviar email de boas-vindas
-          // TODO: Adicionar ao canal do Telegram
-
+          console.log('✅ Usuário Stripe atualizado no banco:', email, 'Plan:', plan, 'Válido até:', validUntil.toLocaleDateString())
         } catch (dbError) {
-          console.error('❌ Erro ao salvar usuário Stripe:', dbError.message)
+          console.warn('⚠️ MongoDB não disponível para Stripe, usando stub mode:', dbError.message)
+        }
+
+        // SEMPRE adicionar ao painel admin (funciona sem MongoDB)
+        try {
+          addUserToAdmin({
+            email: email,
+            name: customerName,
+            plan: plan,
+            source: 'stripe_payment'
+          })
+          console.log('✅ Usuário Stripe adicionado ao painel admin:', email)
+        } catch (adminError) {
+          console.error('❌ Erro ao adicionar usuário ao admin:', adminError.message)
         }
       }
     }

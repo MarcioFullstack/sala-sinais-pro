@@ -11,7 +11,7 @@ import mpRoutes from './routes/mp.js'
 import webhookRoutes from './routes/webhook.js'
 import telegramWebhookRoutes from './routes/telegramWebhook.js'
 import signalsRoutes from './routes/signals.js'
-import adminRoutes from './routes/admin.js'
+import adminRoutes from './routes/admin-simple.js'
 import leadsRoutes from './routes/leads-simple.js'
 import plansRoutes from './routes/plans-simple.js'
 import { auth } from './middleware/auth.js'
@@ -61,23 +61,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'))
 })
 
-// Rota de health check para Render
+// Rota de health check otimizada para Render
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-    port: process.env.PORT || 8080,
-    adminConfigured: !!process.env.ADMIN_EMAIL,
-    jwtConfigured: !!process.env.JWT_SECRET,
-    mongoConfigured: !!process.env.MONGO_URI,
-    version: '2.0.1',
-    endpoints: {
-      admin: '/admin.html',
-      api: '/api/',
-      health: '/health'
-    }
-  })
+  res.status(200).send('OK')
+})
 })
 
 // serve uploaded images

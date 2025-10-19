@@ -1,4 +1,5 @@
 import express from 'express'
+import { addUserToAdmin } from './admin-simple.js'
 
 const router = express.Router()
 
@@ -58,6 +59,19 @@ router.post('/', async (req, res) => {
     
     console.log('✅ Novo lead criado:', normalizedEmail, '- Trial até:', validUntil.toLocaleDateString())
     console.log('📊 Total de leads:', leadsStore.size)
+
+    // Adicionar ao painel admin automaticamente
+    try {
+      addUserToAdmin({
+        email: normalizedEmail,
+        name: name.trim(),
+        plan: plan,
+        source: 'lead_capture'
+      })
+      console.log('✅ Lead adicionado ao painel admin:', normalizedEmail)
+    } catch (adminError) {
+      console.error('❌ Erro ao adicionar lead ao admin:', adminError.message)
+    }
 
     // Simular notificação
     console.log(`📱 [TELEGRAM STUB] Novo Lead: ${name} (${normalizedEmail}) - Trial até ${validUntil.toLocaleDateString('pt-BR')}`)

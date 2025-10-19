@@ -1,5 +1,6 @@
 import mercadopago from 'mercadopago'
 import User from '../models/User.js'
+import { addUserToAdmin } from '../routes/admin-simple.js'
 
 const mpClient = new mercadopago.MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN })
 
@@ -35,9 +36,34 @@ export async function mpWebhook(req, res){
     if(topic){
       const email = (req.body?.payer?.email || 'comprador@mp.com').toLowerCase()
       const plan = (req.body?.metadata?.plan) || 'basic'
-      const validUntil = new Date(); validUntil.setMonth(validUntil.getMonth()+1)
-      await User.findOneAndUpdate({ email }, { email, plan, status:'active', validUntil }, { upsert:true })
-      console.log('✅ MP assinante registrado:', email, plan)
+      const payerName = req.body?.payer?.first_name || req.body?.payer?.name || 'Cliente MP'
+      
+      // Tentar salvar no banco de dados
+      try {
+        const validUntil = new Date(); 
+        validUntil.setMonth(validUntil.getMonth() + 1)
+        await User.findOneAndUpdate(
+          { email }, 
+          { email, name: payerName, plan, status:'active', validUntil, source: 'mercadopago' }, 
+          { upsert:true }
+        )
+        console.log('✅ MP usuário registrado no banco:', email, plan)
+      } catch (dbError) {
+        console.warn('⚠️ MongoDB não disponível para MP, usando stub mode:', dbError.message)
+      }
+
+      // SEMPRE adicionar ao painel admin (funciona sem MongoDB)
+      try {
+        addUserToAdmin({
+          email: email,
+          name: payerName,
+          plan: plan,
+          source: 'mercadopago_payment'
+        })
+        console.log('✅ Usuário MP adicionado ao painel admin:', email)
+      } catch (adminError) {
+        console.error('❌ Erro ao adicionar usuário MP ao admin:', adminError.message)
+      }
     }
     res.json({ received:true })
   }catch(e){
@@ -69,13 +95,34 @@ export async function mpCreatePreapproval(req, res){
     const resp = await preapproval.create({ body })
     const preapprovalId = resp && (resp.id || resp.body?.id)
 
-    // salva no usuário
-    const validUntil = new Date(); validUntil.setMonth(validUntil.getMonth()+1)
-    const user = await User.findOneAndUpdate(
-      { email: email.toLowerCase() },
-      { email: email.toLowerCase(), plan, status:'active', validUntil, preapprovalId },
-      { upsert:true, new:true }
-    )
+    // Tentar salvar no usuário (banco de dados)
+    let user = null
+    try {
+      const validUntil = new Date(); 
+      validUntil.setMonth(validUntil.getMonth() + 1)
+      user = await User.findOneAndUpdate(
+        { email: email.toLowerCase() },
+        { email: email.toLowerCase(), plan, status:'active', validUntil, preapprovalId, source: 'mercadopago_recurring' },
+        { upsert:true, new:true }
+      )
+      console.log('✅ MP Recorrente - usuário salvo no banco:', email)
+    } catch (dbError) {
+      console.warn('⚠️ MongoDB não disponível para MP Recorrente, usando stub mode:', dbError.message)
+    }
+
+    // SEMPRE adicionar ao painel admin (funciona sem MongoDB)
+    try {
+      addUserToAdmin({
+        email: email,
+        name: 'Cliente MP Recorrente',
+        plan: plan,
+        source: 'mercadopago_recurring'
+      })
+      console.log('✅ Usuário MP Recorrente adicionado ao painel admin:', email)
+    } catch (adminError) {
+      console.error('❌ Erro ao adicionar usuário MP Recorrente ao admin:', adminError.message)
+    }
+
     res.json({ ok:true, data: resp, user })
   }catch(e){
     console.error('MP preapproval error', e.message)
