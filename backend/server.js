@@ -12,7 +12,7 @@ import webhookRoutes from './routes/webhook.js'
 import telegramWebhookRoutes from './routes/telegramWebhook.js'
 import signalsRoutes from './routes/signals.js'
 import adminRoutes from './routes/admin.js'
-import leadsRoutes from './routes/leads.js'
+import leadsRoutes from './routes/leads-simple.js'
 import plansRoutes from './routes/plans-simple.js'
 import { auth } from './middleware/auth.js'
 

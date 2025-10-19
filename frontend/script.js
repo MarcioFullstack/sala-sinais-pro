@@ -226,10 +226,13 @@ document.getElementById('btnAbrirExemplo').addEventListener('click', ()=>{
 // Lead Capture Form
 document.getElementById('leadForm').addEventListener('submit', async (e) => {
   e.preventDefault()
+  console.log('🚀 Formulário submetido!')
   
   const email = document.getElementById('leadEmail').value.trim()
   const name = document.getElementById('leadName').value.trim()
   const submitBtn = e.target.querySelector('button[type="submit"]')
+  
+  console.log('📧 Email:', email, 'Nome:', name)
   
   if (!email || !name) {
     alert('📋 Por favor, preencha todos os campos!')
@@ -247,12 +250,14 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
     // Desabilitar botão durante envio
     submitBtn.disabled = true
     submitBtn.textContent = '⏳ Processando...'
+    console.log('⏳ Iniciando envio para API...')
     
     // Timeout para evitar travamento
     const timeoutController = new AbortController()
     const timeoutId = setTimeout(() => timeoutController.abort(), 10000) // 10 segundos
     
     // Criar lead/usuário com trial gratuito
+    console.log('📡 Fazendo requisição para /api/leads')
     const response = await fetch('/api/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -265,9 +270,12 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
       signal: timeoutController.signal
     })
     
+    console.log('📡 Resposta recebida:', response.status, response.statusText)
+    
     clearTimeout(timeoutId)
     
     const data = await response.json()
+    console.log('📊 Dados recebidos:', data)
     
     if (response.ok) {
       // Salvar dados no localStorage para usar no checkout

@@ -1,6 +1,15 @@
 import express from 'express'
-import User from '../models/User.js'
-import Telegram from '../services/telegram.js'
+
+// Importação condicional para funcionar sem banco de dados
+let User = null
+let Telegram = null
+
+try {
+  User = (await import('../models/User.js')).default
+  Telegram = (await import('../services/telegram.js')).default
+} catch (error) {
+  console.warn('⚠️ Modo stub: User/Telegram não carregados')
+}
 
 const router = express.Router()
 
@@ -8,6 +17,8 @@ const router = express.Router()
 router.post('/', async (req, res) => {
   try {
     const { email, name, plan = 'trial', source = 'unknown' } = req.body || {}
+    
+    console.log('📥 Lead recebido:', { email, name, plan, source })
     
     if (!email || !name) {
       return res.status(400).json({ error: 'Email e nome são obrigatórios' })
@@ -21,7 +32,24 @@ router.post('/', async (req, res) => {
 
     const normalizedEmail = email.toLowerCase().trim()
 
-    // Verificar se usuário já existe
+    // Se não tiver banco, simular operação
+    if (!User) {
+      console.log('🎯 Modo stub: simulando cadastro de lead')
+      
+      return res.json({ 
+        ok: true, 
+        message: 'Lead capturado com sucesso (modo stub)',
+        user: { 
+          email: normalizedEmail, 
+          name, 
+          plan, 
+          status: 'active',
+          trialUntil: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+        }
+      })
+    }
+
+    // Verificar se usuário já existe (com banco)
     let user = await User.findOne({ email: normalizedEmail }).catch(() => null)
     
     if (user) {
