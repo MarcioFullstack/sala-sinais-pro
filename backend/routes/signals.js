@@ -69,22 +69,22 @@ router.post('/', async (req, res) => {
     // Format message for Telegram
     const message = formatSignal(signalData)
     
-    // Send to Telegram
+    // Send to Telegram (canal + usuários individuais)
     let telegramResult = null
     try {
-      if (imageUrl && imageUrl.startsWith('http')) {
-        telegramResult = await Telegram.sendPhoto(imageUrl, message)
-      } else {
-        telegramResult = await Telegram.sendMessage(message)
-      }
+      telegramResult = await Telegram.broadcastSignal(message, imageUrl)
+      console.log('📡 Resultado do broadcast:', {
+        channel: telegramResult.channel ? '✅' : '❌',
+        users: `${telegramResult.success}/${telegramResult.total} usuários`
+      })
     } catch (telegramError) {
-      console.error('❌ Erro ao enviar para Telegram:', telegramError.message)
+      console.error('❌ Erro ao fazer broadcast:', telegramError.message)
     }
 
     // Update signal with telegram message ID if saved
-    if (savedSignal && telegramResult && telegramResult.message_id) {
+    if (savedSignal && telegramResult && telegramResult.channel && telegramResult.channel.message_id) {
       try {
-        savedSignal.telegramMessageId = telegramResult.message_id.toString()
+        savedSignal.telegramMessageId = telegramResult.channel.message_id.toString()
         await savedSignal.save()
       } catch (updateError) {
         console.warn('⚠️ Não foi possível atualizar message_id:', updateError.message)
@@ -96,8 +96,15 @@ router.post('/', async (req, res) => {
     res.json({ 
       ok: true, 
       signal: signalData,
-      telegram: telegramResult ? true : false,
-      telegramMessageId: telegramResult?.message_id,
+      telegram: {
+        channel: telegramResult?.channel ? true : false,
+        users: {
+          success: telegramResult?.success || 0,
+          failed: telegramResult?.failed || 0,
+          total: telegramResult?.total || 0
+        }
+      },
+      telegramMessageId: telegramResult?.channel?.message_id,
       saved: savedSignal ? true : false
     })
 

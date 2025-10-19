@@ -78,10 +78,56 @@
         </div>
 
         <div class="section-card">
-          <h3>👥 Gerenciar Usuários</h3>
+          <h3>� Telegram - Estatísticas e Testes</h3>
+          <div id="telegram-stats" class="grid grid-3" style="margin-bottom: 20px;">
+            <div class="form-group">
+              <label>👥 Usuários Totais</label>
+              <input id="stats-total" readonly style="background: rgba(0,0,0,0.3);" />
+            </div>
+            <div class="form-group">
+              <label>📱 Com Telegram</label>
+              <input id="stats-telegram" readonly style="background: rgba(0,0,0,0.3);" />
+            </div>
+            <div class="form-group">
+              <label>✅ Ativos + Telegram</label>
+              <input id="stats-active" readonly style="background: rgba(0,0,0,0.3);" />
+            </div>
+          </div>
+          
+          <div class="grid grid-2">
+            <div class="form-group">
+              <label>💬 Mensagem de Teste</label>
+              <textarea id="test-message" rows="3" placeholder="Digite uma mensagem para testar o envio...">🧪 <b>TESTE DE SISTEMA</b>
+
+📱 Este é um teste do sistema de notificações do Telegram.
+
+✅ Se você recebeu esta mensagem, o sistema está funcionando corretamente!
+
+🕒 ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</textarea>
+            </div>
+            <div class="form-group">
+              <label>🎯 Tipo de Envio</label>
+              <select id="test-type">
+                <option value="channel">📢 Apenas Canal Principal</option>
+                <option value="broadcast">📡 Broadcast (Canal + Usuários)</option>
+                <option value="private">👤 Privado (Digite Telegram ID abaixo)</option>
+              </select>
+              <input id="test-telegram-id" placeholder="Telegram ID para envio privado" style="margin-top: 8px; display: none;" />
+            </div>
+          </div>
+          
+          <div class="cta">
+            <button id="btn-refresh-stats" class="btn btn-secondary">🔄 Atualizar Estatísticas</button>
+            <button id="btn-test-telegram" class="btn btn-outline">📤 Testar Envio</button>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h3>�👥 Gerenciar Usuários</h3>
           <div class="row mb-0">
             <input id="new_email" placeholder="📧 email@cliente.com" />
             <input id="new_name" placeholder="👤 Nome Completo" />
+            <input id="new_telegram" placeholder="📱 Telegram ID (opcional)" />
             <select id="new_plan" title="Plano do usuário">
               <option value="basic">🥉 Básico</option>
               <option value="pro">🥈 Pro</option>
@@ -104,10 +150,11 @@
             <thead>
               <tr>
                 <th>📧 Email</th>
-                <th>📋 Plano</th>
+                <th>� Nome</th>
+                <th>� Telegram</th>
+                <th>� Plano</th>
                 <th>🔄 Status</th>
                 <th>📅 Validade</th>
-                <th>🏷️ MP ID</th>
                 <th>⚙️ Ações</th>
               </tr>
             </thead>
@@ -201,6 +248,7 @@
         const body = {
           email: document.getElementById('new_email').value,
           name: document.getElementById('new_name').value,
+          telegramId: document.getElementById('new_telegram').value || null,
           plan: document.getElementById('new_plan').value,
           status: document.getElementById('new_status').value,
           validUntil: document.getElementById('new_valid').value ? new Date(document.getElementById('new_valid').value) : null
@@ -211,6 +259,7 @@
           // Limpar campos após criar
           document.getElementById('new_email').value = ''
           document.getElementById('new_name').value = ''
+          document.getElementById('new_telegram').value = ''
           document.getElementById('new_valid').value = ''
           alert('✅ Usuário criado com sucesso!')
         } else alert('❌ Falha ao criar usuário. Verifique os dados.')
@@ -230,6 +279,111 @@
         const r = await fetch('/api/mp/checkout/subscribe', { method:'POST', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+token }, body: JSON.stringify({ email, plan }) })
         const d = await r.json()
         if(d.ok) alert('Assinatura MP criada ✅'); else alert('Falha MP: '+(d.error||''))
+      }
+
+      // Funções do Telegram
+      async function loadTelegramStats() {
+        try {
+          const r = await fetch('/api/admin/telegram-stats', { 
+            headers: { 'Authorization': 'Bearer ' + token } 
+          })
+          const stats = await r.json()
+          
+          document.getElementById('stats-total').value = `${stats.total_users} usuários`
+          document.getElementById('stats-telegram').value = `${stats.users_with_telegram} (${stats.coverage_percentage}%)`
+          document.getElementById('stats-active').value = `${stats.active_users_with_telegram} usuários`
+          
+          console.log('📊 Estatísticas do Telegram carregadas:', stats)
+        } catch (error) {
+          console.error('❌ Erro ao carregar estatísticas:', error)
+        }
+      }
+
+      async function testTelegram() {
+        const message = document.getElementById('test-message').value
+        const type = document.getElementById('test-type').value
+        const telegramId = document.getElementById('test-telegram-id').value
+        
+        if (!message.trim()) {
+          alert('📝 Digite uma mensagem para testar!')
+          return
+        }
+        
+        if (type === 'private' && !telegramId.trim()) {
+          alert('📱 Digite o Telegram ID para envio privado!')
+          return
+        }
+        
+        const btnTest = document.getElementById('btn-test-telegram')
+        btnTest.disabled = true
+        btnTest.textContent = '📤 Enviando...'
+        
+        try {
+          const body = { message, type }
+          if (type === 'private') {
+            body.telegramId = telegramId
+          }
+          
+          const r = await fetch('/api/admin/test-telegram', { 
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token 
+            },
+            body: JSON.stringify(body)
+          })
+          
+          const result = await r.json()
+          
+          if (result.ok && result.sent) {
+            alert('✅ Mensagem enviada com sucesso!')
+            console.log('📤 Resultado do teste:', result)
+          } else {
+            alert('❌ Falha ao enviar mensagem. Verifique as configurações do bot.')
+            console.error('❌ Erro no teste:', result)
+          }
+        } catch (error) {
+          alert('❌ Erro ao testar Telegram: ' + error.message)
+          console.error('❌ Erro no teste:', error)
+        } finally {
+          btnTest.disabled = false
+          btnTest.textContent = '📤 Testar Envio'
+        }
+      }
+
+      // Atualizar a função loadUsers para incluir Telegram
+      const originalLoadUsers = loadUsers
+      loadUsers = async function() {
+        const r = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + token } })
+        const users = await r.json()
+        const tbody = document.getElementById('users')
+        tbody.innerHTML = users.map(u => {
+          const validUntil = u.validUntil ? new Date(u.validUntil).toISOString().slice(0,10) : ''
+          const telegramDisplay = u.telegramId ? 
+            `<span style="color: #48bb78;">✅ ${u.telegramId}</span>` : 
+            `<span style="color: #f56565;">❌ Não configurado</span>`
+          
+          return `<tr>
+            <td><input data-id="${u._id}" data-field="email" value="${u.email||''}" disabled style="background:rgba(0,0,0,0.3)" /></td>
+            <td><input data-id="${u._id}" data-field="name" value="${u.name||''}" /></td>
+            <td><input data-id="${u._id}" data-field="telegramId" value="${u.telegramId||''}" placeholder="Telegram ID" /></td>
+            <td><select data-id="${u._id}" data-field="plan">
+              <option value="basic" ${u.plan==='basic'?'selected':''}>🥉 Básico</option>
+              <option value="pro" ${u.plan==='pro'?'selected':''}>🥈 Pro</option>
+              <option value="vip" ${u.plan==='vip'?'selected':''}>🥇 VIP</option>
+            </select></td>
+            <td><select data-id="${u._id}" data-field="status">
+              <option value="active" ${u.status==='active'?'selected':''}>✅ Ativo</option>
+              <option value="expired" ${u.status==='expired'?'selected':''}>⏰ Expirado</option>
+              <option value="canceled" ${u.status==='canceled'?'selected':''}>❌ Cancelado</option>
+            </select></td>
+            <td><input data-id="${u._id}" data-field="validUntil" type="date" value="${validUntil}" /></td>
+            <td class="actions">
+              <button class="btn btn-success" onclick="saveUser('${u._id}')">💾</button>
+              <button class="btn btn-danger" onclick="delUser('${u._id}')">🗑️</button>
+            </td>
+          </tr>`
+        }).join('')
       }
       async function mpCancel(userId){
         const r = await fetch('/api/mp/checkout/subscribe/cancel/'+userId, {
@@ -260,6 +414,33 @@
         if(btnCreateUser) {
           btnCreateUser.addEventListener('click', createUser)
         }
+
+        // Event listeners para Telegram
+        const btnRefreshStats = document.getElementById('btn-refresh-stats')
+        if(btnRefreshStats) {
+          btnRefreshStats.addEventListener('click', loadTelegramStats)
+        }
+
+        const btnTestTelegram = document.getElementById('btn-test-telegram')
+        if(btnTestTelegram) {
+          btnTestTelegram.addEventListener('click', testTelegram)
+        }
+
+        const testTypeSelect = document.getElementById('test-type')
+        const testTelegramIdInput = document.getElementById('test-telegram-id')
+        if(testTypeSelect && testTelegramIdInput) {
+          testTypeSelect.addEventListener('change', function() {
+            if(this.value === 'private') {
+              testTelegramIdInput.style.display = 'block'
+            } else {
+              testTelegramIdInput.style.display = 'none'
+            }
+          })
+        }
+
+        // Carregar dados iniciais
+        loadUsers()
+        loadTelegramStats()
         
         console.log('🔧 Event listeners attached')
       })

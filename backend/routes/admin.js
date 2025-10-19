@@ -1,6 +1,7 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
+import Telegram from '../services/telegram.js'
 import { auth } from '../middleware/auth.js'
 
 const router = express.Router()
@@ -69,6 +70,66 @@ router.delete('/users/:id', auth, async (req,res)=>{
   const { id } = req.params
   await User.findByIdAndDelete(id)
   res.json({ ok:true })
+})
+
+// Rota para testar envio de mensagem Telegram
+router.post('/test-telegram', auth, async (req, res) => {
+  try {
+    const { message, telegramId, type = 'broadcast' } = req.body || {}
+    
+    if (!message) {
+      return res.status(400).json({ error: 'Mensagem é obrigatória' })
+    }
+
+    let result = null
+    
+    if (type === 'private' && telegramId) {
+      // Envio privado para um usuário específico
+      result = await Telegram.sendPrivateMessage(telegramId, message)
+    } else if (type === 'broadcast') {
+      // Broadcast para todos os usuários
+      result = await Telegram.broadcastSignal(message)
+    } else {
+      // Envio apenas para o canal principal
+      result = await Telegram.sendMessage(message)
+    }
+
+    res.json({
+      ok: true,
+      type,
+      result,
+      sent: result ? true : false
+    })
+  } catch (error) {
+    console.error('❌ Erro no teste do Telegram:', error.message)
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Rota para obter estatísticas do Telegram
+router.get('/telegram-stats', auth, async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments()
+    const usersWithTelegram = await User.countDocuments({
+      telegramId: { $exists: true, $ne: null, $ne: '' }
+    })
+    const activeUsersWithTelegram = await User.countDocuments({
+      status: 'active',
+      telegramId: { $exists: true, $ne: null, $ne: '' }
+    })
+
+    res.json({
+      total_users: totalUsers,
+      users_with_telegram: usersWithTelegram,
+      active_users_with_telegram: activeUsersWithTelegram,
+      coverage_percentage: totalUsers > 0 ? Math.round((usersWithTelegram / totalUsers) * 100) : 0,
+      bot_configured: !!(process.env.TELEGRAM_BOT_TOKEN),
+      channel_configured: !!(process.env.TELEGRAM_CHAT_ID)
+    })
+  } catch (error) {
+    console.error('❌ Erro ao obter estatísticas do Telegram:', error.message)
+    res.status(500).json({ error: error.message })
+  }
 })
 
 export default router
