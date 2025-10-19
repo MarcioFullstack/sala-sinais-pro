@@ -44,6 +44,16 @@ app.get('/admin.html', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/admin.html'))
 })
 
+// Rota específica para termos.html
+app.get('/termos.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/termos.html'))
+})
+
+// Rota específica para privacidade.html
+app.get('/privacidade.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/privacidade.html'))
+})
+
 // Rota para index.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'))
