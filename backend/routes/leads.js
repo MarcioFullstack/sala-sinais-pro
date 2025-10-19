@@ -55,32 +55,19 @@ router.post('/', async (req, res) => {
       createdAt: new Date()
     }
 
+    // Criar usuário rapidamente
+    user = new User(userData)
+    
+    // Salvar no banco de forma otimizada
     try {
-      user = new User(userData)
       await user.save()
       console.log('✅ Novo lead criado:', normalizedEmail, '- Trial até:', validUntil.toLocaleDateString())
     } catch (dbError) {
       console.warn('⚠️ Erro ao salvar no DB:', dbError.message)
-      // Continue even if DB fails - we'll still send the welcome message
+      // Continue mesmo se o DB falhar - ainda enviaremos resposta de sucesso
     }
 
-    // Enviar mensagem de boas-vindas via Telegram (opcional)
-    try {
-      const welcomeMessage = `🎉 <b>Novo Lead Capturado!</b>
-
-👤 <b>Nome:</b> ${name}
-📧 <b>Email:</b> ${normalizedEmail}
-📋 <b>Plano:</b> ${plan.toUpperCase()}
-📱 <b>Fonte:</b> ${source}
-📅 <b>Trial até:</b> ${validUntil.toLocaleDateString('pt-BR')}
-
-🚀 <i>Sala de Sinais PRO - Sistema de Leads</i>`
-
-      await Telegram.sendMessage(welcomeMessage)
-    } catch (telegramError) {
-      console.warn('⚠️ Erro no Telegram para lead:', telegramError.message)
-    }
-
+    // Responder imediatamente ao usuário
     res.json({ 
       ok: true, 
       message: 'Lead capturado com sucesso',
@@ -90,6 +77,26 @@ router.post('/', async (req, res) => {
         plan, 
         status: 'active',
         trialUntil: validUntil.toISOString()
+      }
+    })
+
+    // Enviar notificação para Telegram de forma assíncrona (não bloqueante)
+    setImmediate(async () => {
+      try {
+        const welcomeMessage = `🎉 <b>Novo Lead Capturado!</b>
+
+👤 <b>Nome:</b> ${name}
+📧 <b>Email:</b> ${normalizedEmail}
+📋 <b>Plano:</b> ${plan.toUpperCase()}
+📱 <b>Fonte:</b> ${source}
+📅 <b>Trial até:</b> ${validUntil.toLocaleDateString('pt-BR')}
+
+🚀 <i>Sala de Sinais PRO - Sistema de Leads</i>`
+
+        await Telegram.sendMessage(welcomeMessage)
+        console.log('📱 Notificação de lead enviada para Telegram')
+      } catch (telegramError) {
+        console.warn('⚠️ Erro no Telegram para lead:', telegramError.message)
       }
     })
 

@@ -91,6 +91,10 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
     submitBtn.disabled = true
     submitBtn.textContent = '⏳ Processando...'
     
+    // Timeout para evitar travamento
+    const timeoutController = new AbortController()
+    const timeoutId = setTimeout(() => timeoutController.abort(), 10000) // 10 segundos
+    
     // Criar lead/usuário com trial gratuito
     const response = await fetch('/api/leads', {
       method: 'POST',
@@ -100,32 +104,48 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
         name,
         plan: 'trial',
         source: 'landing_page'
-      })
+      }),
+      signal: timeoutController.signal
     })
+    
+    clearTimeout(timeoutId)
     
     const data = await response.json()
     
     if (response.ok) {
-      // Sucesso - mostrar mensagem e redirecionar para planos
-      alert('🎉 Cadastro realizado com sucesso!\n\n✅ Você receberá as instruções de acesso ao Telegram por e-mail em instantes.\n\n🚀 Agora escolha seu plano para continuar recebendo sinais após o período gratuito!')
+      // Sucesso - mostrar feedback imediato
+      submitBtn.textContent = '✅ Cadastrado!'
+      submitBtn.style.background = '#10b981'
       
-      // Limpar formulário
-      document.getElementById('leadEmail').value = ''
-      document.getElementById('leadName').value = ''
-      
-      // Scroll para seção de planos
-      document.getElementById('planos').scrollIntoView({ behavior: 'smooth' })
+      // Mostrar mensagem de sucesso
+      setTimeout(() => {
+        alert('🎉 Cadastro realizado com sucesso!\n\n✅ Trial de 7 dias ativado!\n🚀 Agora escolha seu plano para continuar após o período gratuito.')
+        
+        // Limpar formulário
+        document.getElementById('leadEmail').value = ''
+        document.getElementById('leadName').value = ''
+        
+        // Scroll para seção de planos
+        document.getElementById('planos').scrollIntoView({ behavior: 'smooth' })
+      }, 500)
     } else {
       // Erro do servidor
       alert('❌ ' + (data.error || 'Erro ao processar cadastro. Tente novamente.'))
     }
   } catch (error) {
     console.error('Erro na captura de lead:', error)
-    alert('❌ Erro de conexão. Verifique sua internet e tente novamente.')
+    if (error.name === 'AbortError') {
+      alert('⏰ A requisição demorou muito. Tente novamente em alguns segundos.')
+    } else {
+      alert('❌ Erro de conexão. Verifique sua internet e tente novamente.')
+    }
   } finally {
-    // Reabilitar botão
-    submitBtn.disabled = false
-    submitBtn.textContent = '🚀 Começar Grátis'
+    // Reabilitar botão após 2 segundos
+    setTimeout(() => {
+      submitBtn.disabled = false
+      submitBtn.textContent = '🚀 Começar Grátis'
+      submitBtn.style.background = '' // Remove cor personalizada
+    }, 2000)
   }
 })
 
