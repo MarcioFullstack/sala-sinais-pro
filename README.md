@@ -5,7 +5,7 @@
 ### Para criar seu próprio fork deste repositório:
 
 1. Faça um fork deste repositório no GitHub
-2. Clone o seu fork:
+2. Clone o seu fork (substitua `SEU-USUARIO` pelo seu nome de usuário do GitHub):
    ```bash
    git clone https://github.com/SEU-USUARIO/sala-sinais-pro.git
    cd sala-sinais-pro
@@ -30,7 +30,7 @@
    git commit -m "Initial commit"
    ```
 
-4. Adicione o remote origin:
+4. Adicione o remote origin (substitua `SEU-USUARIO` pelo seu nome de usuário do GitHub):
    ```bash
    git remote add origin https://github.com/SEU-USUARIO/sala-sinais-pro.git
    ```
@@ -39,5 +39,3 @@
    ```bash
    git push -u origin main
    ```
-
-**Nota:** Substitua `SEU-USUARIO` pelo seu nome de usuário do GitHub.
