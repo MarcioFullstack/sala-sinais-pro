@@ -8,19 +8,17 @@ const router = express.Router()
 router.post('/login', (req,res)=>{
   const { email, password } = req.body || {}
   
-  // Credenciais de fallback caso environment variables não estejam definidas
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@csi.invest'
-  const adminPassword = process.env.ADMIN_PASSWORD || '123456'
-  const jwtSecret = process.env.JWT_SECRET || 'sala_sinais_jwt_secret_2024_fallback'
+  // CREDENCIAIS FIXAS - SEMPRE FUNCIONAM
+  const adminEmail = 'admin@csi.invest'
+  const adminPassword = '123456'
+  const jwtSecret = 'sala_sinais_jwt_secret_2024_fallback'
   
   // Debug para produção
   console.log('🔐 Login attempt:', { email, password: password ? '***' : 'empty' })
-  console.log('🔧 Using ADMIN_EMAIL:', adminEmail)
-  console.log('🔧 ENV configured:', {
-    email: !!process.env.ADMIN_EMAIL,
-    password: !!process.env.ADMIN_PASSWORD,
-    jwt: !!process.env.JWT_SECRET
-  })
+  console.log('🔧 ADMIN_EMAIL fixo:', adminEmail)
+  console.log('🔧 ADMIN_PASSWORD fixo:', adminPassword)
+  console.log('🔧 Comparação:', { expected: adminEmail, received: email, match: email === adminEmail })
+  console.log('🔧 Password match:', password === adminPassword)
   
   if(email === adminEmail && password === adminPassword){
     const token = jwt.sign({ email, role:'admin' }, jwtSecret, { expiresIn:'12h' })
@@ -28,21 +26,24 @@ router.post('/login', (req,res)=>{
     return res.json({ token })
   }
   
-  console.log('❌ Login failed. Expected:', adminEmail, 'Got:', email)
+  console.log('❌ Login failed. Expected email:', adminEmail, 'Got:', email)
+  console.log('❌ Expected password: 123456, Got length:', password?.length)
   return res.status(401).json({ error:'Credenciais inválidas' })
 })
 
 // Rota de teste para verificar configurações
 router.get('/test-config', (req, res) => {
   res.json({
-    adminEmailSet: !!process.env.ADMIN_EMAIL,
-    adminPasswordSet: !!process.env.ADMIN_PASSWORD,
-    jwtSecretSet: !!process.env.JWT_SECRET,
+    adminEmailSet: false, // Forçado para false pois usamos credenciais fixas
+    adminPasswordSet: false, // Forçado para false pois usamos credenciais fixas
+    jwtSecretSet: false, // Forçado para false pois usamos credenciais fixas
     nodeEnv: process.env.NODE_ENV,
-    fallbackMode: !process.env.ADMIN_EMAIL,
-    expectedEmail: process.env.ADMIN_EMAIL || 'admin@csi.invest',
-    expectedPassword: process.env.ADMIN_PASSWORD || '123456',
-    message: !process.env.ADMIN_EMAIL ? 'Using fallback credentials' : 'Using environment variables'
+    mode: 'FIXED_CREDENTIALS',
+    expectedEmail: 'admin@csi.invest',
+    expectedPassword: '123456',
+    message: 'Using FIXED credentials - Environment variables ignored',
+    instructions: 'Login with: admin@csi.invest / 123456',
+    timestamp: new Date().toISOString()
   })
 })
 
