@@ -65,7 +65,6 @@ app.get('/', (req, res) => {
 app.get('/health', (req, res) => {
   res.status(200).send('OK')
 })
-})
 
 // serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')))

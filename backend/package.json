@@ -12,7 +12,8 @@
     "jimp": "^0.22.12",
     "jsonwebtoken": "^9.0.2",
     "mercadopago": "^2.2.3",
-    "mongoose": "^8.19.1"
+    "mongoose": "^8.19.1",
+    "stripe": "^17.0.0"
   },
   "scripts": {
     "start": "node server.js"
