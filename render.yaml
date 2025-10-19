@@ -2,8 +2,9 @@ services:
   - type: web
     name: sala-sinais-pro
     env: node
+    region: oregon
     plan: free
-    buildCommand: cd backend && npm install
+    buildCommand: cd backend && npm install --production
     startCommand: node backend/server.js
     envVars:
       - key: NODE_ENV
@@ -11,10 +12,9 @@ services:
       - key: ADMIN_EMAIL
         value: admin@csi.invest
       - key: ADMIN_PASSWORD
-        value: 123456
+        value: "123456"
       - key: JWT_SECRET
-        value: sala_sinais_jwt_secret_2024_production_key
+        value: sala_sinais_jwt_secret_2024_production_key_v2
+    healthCheckPath: /health
     autoDeploy: true
     branch: main
-    healthCheckPath: /health
-    preDeployCommand: cd backend && npm install
