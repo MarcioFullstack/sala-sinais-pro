@@ -8,19 +8,27 @@ const router = express.Router()
 router.post('/login', (req,res)=>{
   const { email, password } = req.body || {}
   
+  // Credenciais de fallback caso environment variables não estejam definidas
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@csi.invest'
+  const adminPassword = process.env.ADMIN_PASSWORD || '123456'
+  const jwtSecret = process.env.JWT_SECRET || 'sala_sinais_jwt_secret_2024_fallback'
+  
   // Debug para produção
   console.log('🔐 Login attempt:', { email, password: password ? '***' : 'empty' })
-  console.log('🔧 ENV ADMIN_EMAIL:', process.env.ADMIN_EMAIL || 'NOT SET')
-  console.log('🔧 ENV ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD || 'NOT SET')
-  console.log('🔧 ENV JWT_SECRET:', process.env.JWT_SECRET ? 'SET' : 'NOT SET')
+  console.log('🔧 Using ADMIN_EMAIL:', adminEmail)
+  console.log('🔧 ENV configured:', {
+    email: !!process.env.ADMIN_EMAIL,
+    password: !!process.env.ADMIN_PASSWORD,
+    jwt: !!process.env.JWT_SECRET
+  })
   
-  if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
-    const token = jwt.sign({ email, role:'admin' }, process.env.JWT_SECRET || 'dev', { expiresIn:'12h' })
+  if(email === adminEmail && password === adminPassword){
+    const token = jwt.sign({ email, role:'admin' }, jwtSecret, { expiresIn:'12h' })
     console.log('✅ Login successful for:', email)
     return res.json({ token })
   }
   
-  console.log('❌ Login failed for:', email)
+  console.log('❌ Login failed. Expected:', adminEmail, 'Got:', email)
   return res.status(401).json({ error:'Credenciais inválidas' })
 })
 
@@ -31,8 +39,10 @@ router.get('/test-config', (req, res) => {
     adminPasswordSet: !!process.env.ADMIN_PASSWORD,
     jwtSecretSet: !!process.env.JWT_SECRET,
     nodeEnv: process.env.NODE_ENV,
-    expectedEmail: 'admin@csi.invest',
-    expectedPassword: '123456'
+    fallbackMode: !process.env.ADMIN_EMAIL,
+    expectedEmail: process.env.ADMIN_EMAIL || 'admin@csi.invest',
+    expectedPassword: process.env.ADMIN_PASSWORD || '123456',
+    message: !process.env.ADMIN_EMAIL ? 'Using fallback credentials' : 'Using environment variables'
   })
 })
 
