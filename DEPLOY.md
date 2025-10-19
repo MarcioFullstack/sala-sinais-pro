@@ -46,6 +46,6 @@ JWT_SECRET=sala_sinais_jwt_secret_2024_production_key
 3. Deploy automático será feito
 
 ## URLs após deploy:
-- Landing page: https://seu-app.onrender.com/
-- Admin: https://seu-app.onrender.com/admin.html
-- API: https://seu-app.onrender.com/api/
+- Landing page: https://sala-sinais-pro-dxw0.onrender.com/
+- Admin: https://sala-sinais-pro-dxw0.onrender.com/admin.html
+- API: https://sala-sinais-pro-dxw0.onrender.com/api/

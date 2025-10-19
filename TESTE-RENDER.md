@@ -1,34 +1,34 @@
 # TESTE DE CONECTIVIDADE - RENDER
 
-## 🔍 URLs para Testar (substitua SEU-APP pela URL real):
+## 🔍 URLs para Testar:
 
 ### 1️⃣ Health Check:
 ```
-https://SEU-APP.onrender.com/health
+https://sala-sinais-pro-dxw0.onrender.com/health
 ```
 **Deve retornar:** JSON com status "OK"
 
 ### 2️⃣ Debug Admin:
 ```
-https://SEU-APP.onrender.com/debug/admin
+https://sala-sinais-pro-dxw0.onrender.com/debug/admin
 ```
 **Deve retornar:** Informações de configuração
 
 ### 3️⃣ Landing Page:
 ```
-https://SEU-APP.onrender.com/
+https://sala-sinais-pro-dxw0.onrender.com/
 ```
 **Deve mostrar:** Página principal com CSI INVEST
 
 ### 4️⃣ Admin Panel:
 ```
-https://SEU-APP.onrender.com/admin.html
+https://sala-sinais-pro-dxw0.onrender.com/admin.html
 ```
 **Deve mostrar:** Tela de login do admin
 
 ### 5️⃣ API Test:
 ```
-https://SEU-APP.onrender.com/api/admin/test
+https://sala-sinais-pro-dxw0.onrender.com/api/admin/test
 ```
 **Deve retornar:** Erro 401 (normal, precisa login)
 

@@ -32,7 +32,7 @@ git push origin main
 
 ## 🎯 Monitoramento:
 - Health check: `/health`
-- Admin: `https://seu-app.onrender.com/admin.html`
+- Admin: `https://sala-sinais-pro-dxw0.onrender.com/admin.html`
 - Login: `admin@csi.invest` / `123456`
 
 ## 🚨 Se houver problemas:

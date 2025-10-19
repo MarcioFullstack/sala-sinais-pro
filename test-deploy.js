@@ -52,4 +52,4 @@ try {
 console.log('\n🎯 RESULTADO:')
 console.log('✅ Projeto pronto para deploy no Render!')
 console.log('📋 Siga as instruções no DEPLOY-RAPIDO.md')
-console.log('🌐 URL será: https://sala-sinais-pro-xxxxx.onrender.com')
+console.log('🌐 URL será: https://sala-sinais-pro-dxw0.onrender.com')

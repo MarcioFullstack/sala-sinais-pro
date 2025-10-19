@@ -24,9 +24,9 @@ JWT_SECRET=sala_sinais_jwt_secret_2024_production_key_v2
 - **Start Command:** `node backend/server.js`
 
 ### 4️⃣ Testar Após Deploy:
-- Health: https://seu-app.onrender.com/health
-- Admin: https://seu-app.onrender.com/admin.html
-- Landing: https://seu-app.onrender.com/
+- Health: https://sala-sinais-pro-dxw0.onrender.com/health
+- Admin: https://sala-sinais-pro-dxw0.onrender.com/admin.html
+- Landing: https://sala-sinais-pro-dxw0.onrender.com/
 
 ### 🔧 Se Ainda Não Funcionar:
 1. Delete o serviço no Render

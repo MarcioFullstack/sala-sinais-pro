@@ -42,7 +42,7 @@ Valor: sala_sinais_jwt_secret_2024_production_key_v2
 ## 🔍 TESTE APÓS CONFIGURAR:
 
 ### URL de Debug:
-`https://SUA-URL.onrender.com/api/admin/test-config`
+`https://sala-sinais-pro-dxw0.onrender.com/api/admin/test-config`
 
 **Deve retornar:**
 ```json
@@ -57,7 +57,7 @@ Valor: sala_sinais_jwt_secret_2024_production_key_v2
 ```
 
 ### Login Admin:
-- **URL:** `https://SUA-URL.onrender.com/admin.html`
+- **URL:** `https://sala-sinais-pro-dxw0.onrender.com/admin.html`
 - **Email:** `admin@csi.invest`
 - **Senha:** `123456`
 

@@ -47,18 +47,18 @@ JWT_SECRET → sala_sinais_jwt_secret_2024_production_key_v2
 ### 6️⃣ DEPLOY:
 1. Clique **"Create Web Service"**
 2. Aguarde 3-5 minutos
-3. Render mostrará URL do tipo: `https://sala-sinais-pro-xxxxx.onrender.com`
+3. Render mostrará URL do tipo: `https://sala-sinais-pro-dxw0.onrender.com`
 
 ## ✅ TESTE IMEDIATO:
 
 ### Health Check:
-`https://SUA-URL.onrender.com/health`
+`https://sala-sinais-pro-dxw0.onrender.com/health`
 
 ### Landing Page:
-`https://SUA-URL.onrender.com/`
+`https://sala-sinais-pro-dxw0.onrender.com/`
 
 ### Admin Panel:
-`https://SUA-URL.onrender.com/admin.html`
+`https://sala-sinais-pro-dxw0.onrender.com/admin.html`
 - Email: `admin@csi.invest`
 - Senha: `123456`
 

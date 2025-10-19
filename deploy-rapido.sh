@@ -25,4 +25,4 @@ git push origin main
 echo "✅ Deploy iniciado!"
 echo "🔗 Acompanhe em: https://dashboard.render.com"
 echo "⏱️  Tempo estimado: 1-2 minutos"
-echo "🌐 URL: https://sala-sinais-pro.onrender.com"
+echo "🌐 URL: https://sala-sinais-pro-dxw0.onrender.com"
