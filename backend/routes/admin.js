@@ -109,14 +109,22 @@ router.post('/test-telegram', auth, async (req, res) => {
 // Rota para obter estatísticas do Telegram
 router.get('/telegram-stats', auth, async (req, res) => {
   try {
-    const totalUsers = await User.countDocuments()
-    const usersWithTelegram = await User.countDocuments({
-      telegramId: { $exists: true, $ne: null, $ne: '' }
-    })
-    const activeUsersWithTelegram = await User.countDocuments({
-      status: 'active',
-      telegramId: { $exists: true, $ne: null, $ne: '' }
-    })
+    let totalUsers = 0
+    let usersWithTelegram = 0
+    let activeUsersWithTelegram = 0
+
+    try {
+      totalUsers = await User.countDocuments()
+      usersWithTelegram = await User.countDocuments({
+        telegramId: { $exists: true, $ne: null, $ne: '' }
+      })
+      activeUsersWithTelegram = await User.countDocuments({
+        status: 'active',
+        telegramId: { $exists: true, $ne: null, $ne: '' }
+      })
+    } catch (dbError) {
+      console.warn('⚠️ MongoDB não conectado para estatísticas:', dbError.message)
+    }
 
     res.json({
       total_users: totalUsers,

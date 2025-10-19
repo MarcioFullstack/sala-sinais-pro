@@ -1,5 +1,6 @@
 import axios from 'axios'
 import User from '../models/User.js'
+import TelegramBot from './telegramBot.js'
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID // Canal principal
@@ -71,13 +72,15 @@ const sendPhoto = async (imageUrl, caption = '') => {
 // Enviar mensagem para um usuário específico
 const sendPrivateMessage = async (telegramId, text, imageUrl = null) => {
   try {
-    if (!BOT_TOKEN) {
-      console.log('[telegram] BOT_TOKEN não configurado')
-      console.log('[telegram] Mensagem privada que seria enviada para', telegramId, ':', text)
-      return { ok: true, message_id: Date.now(), stub: true }
-    }
-
+    // Usar o TelegramBot para envio de mensagens privadas
     if (imageUrl && imageUrl.startsWith('http')) {
+      // Para imagens, usar o método tradicional por enquanto
+      if (!BOT_TOKEN) {
+        console.log('[telegram] BOT_TOKEN não configurado')
+        console.log('[telegram] Foto privada que seria enviada para', telegramId, ':', text)
+        return { ok: true, message_id: Date.now(), stub: true }
+      }
+
       const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`
       const payload = {
         chat_id: telegramId,
@@ -91,18 +94,8 @@ const sendPrivateMessage = async (telegramId, text, imageUrl = null) => {
         return response.data.result
       }
     } else {
-      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`
-      const payload = {
-        chat_id: telegramId,
-        text: text,
-        parse_mode: 'HTML',
-        disable_web_page_preview: false
-      }
-      const response = await axios.post(url, payload)
-      if (response.data.ok) {
-        console.log(`✅ Mensagem privada enviada para ${telegramId}:`, response.data.result.message_id)
-        return response.data.result
-      }
+      // Para texto, usar o TelegramBot
+      return await TelegramBot.sendMessage(telegramId, text)
     }
     
     console.error('❌ Erro ao enviar mensagem privada:', response?.data)

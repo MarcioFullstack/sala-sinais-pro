@@ -78,7 +78,33 @@
         </div>
 
         <div class="section-card">
-          <h3>� Telegram - Estatísticas e Testes</h3>
+          <h3>🤖 Bot Telegram - Configuração e Gerenciamento</h3>
+          
+          <div class="grid grid-2" style="margin-bottom: 20px;">
+            <div class="form-group">
+              <label>🤖 Status do Bot</label>
+              <input id="bot-status" readonly style="background: rgba(0,0,0,0.3);" value="Verificando..." />
+            </div>
+            <div class="form-group">
+              <label>🔗 Webhook Status</label>
+              <input id="webhook-status" readonly style="background: rgba(0,0,0,0.3);" value="Não configurado" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>🌐 URL do Webhook</label>
+            <input id="webhook-url" placeholder="https://seu-dominio.com/api/telegram/telegram" />
+          </div>
+
+          <div class="cta" style="margin-bottom: 24px;">
+            <button id="btn-bot-info" class="btn btn-secondary">🔍 Verificar Bot</button>
+            <button id="btn-setup-webhook" class="btn btn-primary">🔗 Configurar Webhook</button>
+            <button id="btn-remove-webhook" class="btn btn-danger">🗑️ Remover Webhook</button>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h3>📱 Telegram - Estatísticas e Testes</h3>
           <div id="telegram-stats" class="grid grid-3" style="margin-bottom: 20px;">
             <div class="form-group">
               <label>👥 Usuários Totais</label>
@@ -119,6 +145,7 @@
           <div class="cta">
             <button id="btn-refresh-stats" class="btn btn-secondary">🔄 Atualizar Estatísticas</button>
             <button id="btn-test-telegram" class="btn btn-outline">📤 Testar Envio</button>
+            <button id="btn-test-bot" class="btn btn-success">🤖 Testar Bot</button>
           </div>
         </div>
 
@@ -281,6 +308,149 @@
         if(d.ok) alert('Assinatura MP criada ✅'); else alert('Falha MP: '+(d.error||''))
       }
 
+      // Funções do Bot Telegram
+      async function loadBotInfo() {
+        try {
+          const r = await fetch('/api/telegram/info', { 
+            headers: { 'Authorization': 'Bearer ' + token } 
+          })
+          const info = await r.json()
+          
+          if (info.ok && info.result) {
+            document.getElementById('bot-status').value = `✅ ${info.result.first_name} (@${info.result.username})`
+            console.log('🤖 Bot info carregada:', info.result)
+          } else {
+            document.getElementById('bot-status').value = '❌ Bot não configurado ou inválido'
+            console.error('❌ Erro ao carregar bot info:', info)
+          }
+        } catch (error) {
+          document.getElementById('bot-status').value = '❌ Erro na conexão'
+          console.error('❌ Erro ao carregar bot info:', error)
+        }
+      }
+
+      async function setupWebhook() {
+        const webhookUrl = document.getElementById('webhook-url').value
+        
+        if (!webhookUrl.trim()) {
+          alert('🌐 Digite a URL do webhook!')
+          return
+        }
+        
+        const btnSetup = document.getElementById('btn-setup-webhook')
+        btnSetup.disabled = true
+        btnSetup.textContent = '🔗 Configurando...'
+        
+        try {
+          const r = await fetch('/api/telegram/setup', { 
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token 
+            },
+            body: JSON.stringify({ webhookUrl })
+          })
+          
+          const result = await r.json()
+          
+          if (result.ok) {
+            alert('✅ Webhook configurado com sucesso!')
+            document.getElementById('webhook-status').value = '✅ Configurado'
+            console.log('🔗 Webhook configurado:', result)
+          } else {
+            alert('❌ Falha ao configurar webhook: ' + (result.error || 'Erro desconhecido'))
+            console.error('❌ Erro no webhook:', result)
+          }
+        } catch (error) {
+          alert('❌ Erro ao configurar webhook: ' + error.message)
+          console.error('❌ Erro no webhook:', error)
+        } finally {
+          btnSetup.disabled = false
+          btnSetup.textContent = '🔗 Configurar Webhook'
+        }
+      }
+
+      async function removeWebhook() {
+        if (!confirm('🗑️ Tem certeza que deseja remover o webhook?')) return
+        
+        const btnRemove = document.getElementById('btn-remove-webhook')
+        btnRemove.disabled = true
+        btnRemove.textContent = '🗑️ Removendo...'
+        
+        try {
+          const r = await fetch('/api/telegram/webhook', { 
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + token }
+          })
+          
+          const result = await r.json()
+          
+          if (result.ok) {
+            alert('✅ Webhook removido com sucesso!')
+            document.getElementById('webhook-status').value = '❌ Não configurado'
+            console.log('🗑️ Webhook removido:', result)
+          } else {
+            alert('❌ Falha ao remover webhook: ' + (result.error || 'Erro desconhecido'))
+            console.error('❌ Erro ao remover webhook:', result)
+          }
+        } catch (error) {
+          alert('❌ Erro ao remover webhook: ' + error.message)
+          console.error('❌ Erro ao remover webhook:', error)
+        } finally {
+          btnRemove.disabled = false
+          btnRemove.textContent = '🗑️ Remover Webhook'
+        }
+      }
+
+      async function testBot() {
+        const message = document.getElementById('test-message').value
+        const telegramId = prompt('🤖 Digite seu Telegram ID para testar o bot:', '')
+        
+        if (!telegramId) {
+          alert('📱 Telegram ID é necessário para testar o bot!')
+          return
+        }
+        
+        if (!message.trim()) {
+          alert('📝 Digite uma mensagem para testar!')
+          return
+        }
+        
+        const btnTest = document.getElementById('btn-test-bot')
+        btnTest.disabled = true
+        btnTest.textContent = '🤖 Testando...'
+        
+        try {
+          const r = await fetch('/api/telegram/test', { 
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token 
+            },
+            body: JSON.stringify({ 
+              chatId: telegramId,
+              message: message 
+            })
+          })
+          
+          const result = await r.json()
+          
+          if (result.ok && result.sent) {
+            alert('✅ Mensagem enviada via bot com sucesso!')
+            console.log('🤖 Teste do bot realizado:', result)
+          } else {
+            alert('❌ Falha no teste do bot. Verifique o Telegram ID e configurações.')
+            console.error('❌ Erro no teste do bot:', result)
+          }
+        } catch (error) {
+          alert('❌ Erro ao testar bot: ' + error.message)
+          console.error('❌ Erro no teste do bot:', error)
+        } finally {
+          btnTest.disabled = false
+          btnTest.textContent = '🤖 Testar Bot'
+        }
+      }
+
       // Funções do Telegram
       async function loadTelegramStats() {
         try {
@@ -415,6 +585,22 @@
           btnCreateUser.addEventListener('click', createUser)
         }
 
+        // Event listeners para Bot Telegram
+        const btnBotInfo = document.getElementById('btn-bot-info')
+        if(btnBotInfo) {
+          btnBotInfo.addEventListener('click', loadBotInfo)
+        }
+
+        const btnSetupWebhook = document.getElementById('btn-setup-webhook')
+        if(btnSetupWebhook) {
+          btnSetupWebhook.addEventListener('click', setupWebhook)
+        }
+
+        const btnRemoveWebhook = document.getElementById('btn-remove-webhook')
+        if(btnRemoveWebhook) {
+          btnRemoveWebhook.addEventListener('click', removeWebhook)
+        }
+
         // Event listeners para Telegram
         const btnRefreshStats = document.getElementById('btn-refresh-stats')
         if(btnRefreshStats) {
@@ -424,6 +610,11 @@
         const btnTestTelegram = document.getElementById('btn-test-telegram')
         if(btnTestTelegram) {
           btnTestTelegram.addEventListener('click', testTelegram)
+        }
+
+        const btnTestBot = document.getElementById('btn-test-bot')
+        if(btnTestBot) {
+          btnTestBot.addEventListener('click', testBot)
         }
 
         const testTypeSelect = document.getElementById('test-type')
@@ -441,6 +632,7 @@
         // Carregar dados iniciais
         loadUsers()
         loadTelegramStats()
+        loadBotInfo()
         
         console.log('🔧 Event listeners attached')
       })

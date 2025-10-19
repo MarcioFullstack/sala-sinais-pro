@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 import checkoutRoutes from './routes/checkout.js'
 import mpRoutes from './routes/mp.js'
 import webhookRoutes from './routes/webhook.js'
+import telegramWebhookRoutes from './routes/telegramWebhook.js'
 import signalsRoutes from './routes/signals.js'
 import adminRoutes from './routes/admin.js'
 import leadsRoutes from './routes/leads.js'
@@ -91,6 +92,7 @@ if (mongoUri) {
 app.use('/api/checkout', checkoutRoutes)
 app.use('/api/mp/checkout', mpRoutes)
 app.use('/api/webhook', webhookRoutes)
+app.use('/api/telegram', telegramWebhookRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/leads', leadsRoutes)
 app.use('/api/signals', auth, signalsRoutes)
