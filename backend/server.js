@@ -54,7 +54,17 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    port: process.env.PORT || 8080,
+    adminConfigured: !!process.env.ADMIN_EMAIL,
+    jwtConfigured: !!process.env.JWT_SECRET,
+    mongoConfigured: !!process.env.MONGO_URI,
+    version: '2.0.1',
+    endpoints: {
+      admin: '/admin.html',
+      api: '/api/',
+      health: '/health'
+    }
   })
 })
 
@@ -75,5 +85,26 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/leads', leadsRoutes)
 app.use('/api/signals', auth, signalsRoutes)
 
+// Rota de debug específica para admin
+app.get('/debug/admin', (req, res) => {
+  res.json({
+    adminRoute: 'OK',
+    staticFiles: 'Configured',
+    authMiddleware: 'Loaded',
+    environment: process.env.NODE_ENV,
+    adminEmail: process.env.ADMIN_EMAIL ? 'Set' : 'Missing',
+    jwtSecret: process.env.JWT_SECRET ? 'Set' : 'Missing'
+  })
+})
+
 const port = process.env.PORT || 8080
-app.listen(port, () => console.log(`🚀 API running on http://localhost:${port}`))
+app.listen(port, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${port}`)
+  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`)
+  console.log(`📧 Admin Email: ${process.env.ADMIN_EMAIL || 'not set'}`)
+  console.log(`🔑 JWT Secret: ${process.env.JWT_SECRET ? 'configured' : 'not set'}`)
+  console.log(`💾 MongoDB: ${process.env.MONGO_URI ? 'connected' : 'stub mode'}`)
+  console.log(`🏠 Access: http://localhost:${port}`)
+  console.log(`🔐 Admin: http://localhost:${port}/admin.html`)
+  console.log(`❤️ Health: http://localhost:${port}/health`)
+})
