@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "cd backend && node server.js",
-    "build": "cd backend && npm install --production",
-    "postinstall": "cd backend && npm install --production",
-    "render-build": "cd backend && npm install --production",
+    "build": "npm run render-build",
+    "postinstall": "npm run render-build",
+    "render-build": "cd backend && npm ci --only=production --silent",
     "render-start": "node backend/server.js"
   },
   "engines": {

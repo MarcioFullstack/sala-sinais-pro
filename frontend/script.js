@@ -33,7 +33,6 @@ function renderizarPlanos(plans) {
 
   container.innerHTML = planosPagos.map(plan => `
     <div class="card plan ${plan.popular ? 'featured' : ''}" data-plan="${plan.id}">
-      ${plan.popular ? '<div class="badge-popular">🔥 Mais Popular</div>' : ''}
       <h3>${plan.name}</h3>
       <p class="price">${plan.priceFormatted}${plan.price > 0 ? '/mês' : ''}</p>
       <p class="plan-description">${plan.description}</p>
@@ -76,7 +75,6 @@ function mostrarPlanosEstaticos() {
       </div>
     </div>
     <div class="card plan featured">
-      <div class="badge-popular">🔥 Mais Popular</div>
       <h3>Pro</h3>
       <p class="price">R$ 99/mês</p>
       <ul>

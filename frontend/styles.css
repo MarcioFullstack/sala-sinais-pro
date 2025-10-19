@@ -1652,20 +1652,7 @@ textarea {
   border: 1px solid rgba(66, 153, 225, 0.2) !important;
 }
 
-.badge-popular {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(45deg, #ff6b6b, #ff8e53);
-  color: white;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-  z-index: 2;
-}
+/* Badge popular removido - usando ::before no plano featured */
 
 .plan {
   position: relative;
@@ -1700,18 +1687,7 @@ textarea {
   box-shadow: 0 10px 30px rgba(66, 153, 225, 0.2);
 }
 
-.plan.featured::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, var(--primary), var(--accent));
-  border-radius: 12px;
-  z-index: -1;
-  opacity: 0.3;
-}
+/* Background gradient removido - usando apenas o badge "MAIS POPULAR" */
 
 .checkout {
   display: flex;
@@ -1762,13 +1738,7 @@ textarea {
     border: 2px solid var(--primary);
   }
   
-  .badge-popular {
-    position: relative;
-    top: 0;
-    transform: none;
-    margin-bottom: 1rem;
-    display: inline-block;
-  }
+  /* Badge popular responsivo removido */
 }
 
 /* Loading states */

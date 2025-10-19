@@ -19,6 +19,7 @@ temp/
 # Cache
 .cache/
 .parcel-cache/
+.npm/
 
 # Build outputs
 dist/
@@ -28,6 +29,20 @@ build/
 .vscode/
 .idea/
 *.swp
+
+# Arquivos de desenvolvimento (não necessários no deploy)
+test-*.js
+*.test.js
+*.spec.js
+coverage/
+.nyc_output/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+*.pid
+*.seed
+*.gz
 *.swo
 
 # Sistema operacional

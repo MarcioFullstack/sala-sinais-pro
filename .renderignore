@@ -1,0 +1,39 @@
+# Arquivos ignorados no deploy Render
+# (reduz tempo de upload)
+
+# Documentação de desenvolvimento
+README-new.md
+CORRECAO-LOGIN.md
+DEPLOY-RAPIDO.md
+DEPLOY.md
+LOGIN-CONFIGURADO.md
+RENDER-FORCE-UPDATE.md
+TELEGRAM-SETUP.md
+TESTE-RENDER.md
+DEPLOY-OTIMIZADO.md
+
+# Arquivos de teste
+test-*.js
+test-*.json
+*.test.js
+*.spec.js
+
+# Arquivos de desenvolvimento
+.env.example
+.env.fallback
+start.sh
+
+# Cache e temporários
+.tmp/
+temp/
+.cache/
+
+# IDE e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema
+.DS_Store
+Thumbs.db

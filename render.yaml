@@ -4,8 +4,8 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: cd backend && npm install --production
-    startCommand: node backend/server.js
+    buildCommand: npm run render-build
+    startCommand: npm run render-start
     envVars:
       - key: NODE_ENV
         value: production
@@ -15,6 +15,10 @@ services:
         value: "123456"
       - key: JWT_SECRET
         value: sala_sinais_jwt_secret_2024_production_key_v2
+      - key: NPM_CONFIG_PRODUCTION
+        value: "true"
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=512"
     healthCheckPath: /health
     autoDeploy: true
     branch: main

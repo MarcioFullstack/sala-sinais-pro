@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste Sistema de Usuários</title>
+</head>
+<body>
+    <h1>Teste - Cadastro Automático de Usuários</h1>
+    
+    <h2>1. Teste Lead Capture</h2>
+    <button onclick="testLead()">Simular Cadastro de Lead</button>
+    <div id="leadResult"></div>
+    
+    <h2>2. Teste Pagamento Stripe</h2>
+    <button onclick="testStripePayment()">Simular Pagamento Stripe</button>
+    <div id="stripeResult"></div>
+    
+    <h2>3. Teste Pagamento Mercado Pago</h2>
+    <button onclick="testMPPayment()">Simular Pagamento MP</button>
+    <div id="mpResult"></div>
+
+    <script>
+        async function testLead() {
+            const result = document.getElementById('leadResult')
+            result.innerHTML = '⏳ Testando...'
+            
+            try {
+                const response = await fetch('/api/leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: `teste${Date.now()}@exemplo.com`,
+                        name: 'João Teste',
+                        plan: 'trial',
+                        source: 'test_page'
+                    })
+                })
+                
+                const data = await response.json()
+                result.innerHTML = `✅ Lead criado: ${JSON.stringify(data, null, 2)}`
+            } catch (error) {
+                result.innerHTML = `❌ Erro: ${error.message}`
+            }
+        }
+        
+        async function testStripePayment() {
+            const result = document.getElementById('stripeResult')
+            result.innerHTML = '⏳ Simulando webhook Stripe...'
+            
+            // Simular webhook do Stripe
+            const webhookData = {
+                type: 'checkout.session.completed',
+                data: {
+                    object: {
+                        customer_email: `stripe${Date.now()}@exemplo.com`,
+                        metadata: {
+                            plan: 'pro',
+                            name: 'Cliente Stripe'
+                        }
+                    }
+                }
+            }
+            
+            try {
+                const response = await fetch('/webhook/stripe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(webhookData)
+                })
+                
+                const data = await response.json()
+                result.innerHTML = `✅ Webhook Stripe processado: ${JSON.stringify(data, null, 2)}`
+            } catch (error) {
+                result.innerHTML = `❌ Erro: ${error.message}`
+            }
+        }
+        
+        async function testMPPayment() {
+            const result = document.getElementById('mpResult')
+            result.innerHTML = '⏳ Simulando webhook MP...'
+            
+            // Simular webhook do Mercado Pago
+            const webhookData = {
+                type: 'payment',
+                payer: {
+                    email: `mp${Date.now()}@exemplo.com`,
+                    first_name: 'Cliente MP'
+                },
+                metadata: {
+                    plan: 'basic'
+                }
+            }
+            
+            try {
+                const response = await fetch('/webhook/mp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(webhookData)
+                })
+                
+                const data = await response.json()
+                result.innerHTML = `✅ Webhook MP processado: ${JSON.stringify(data, null, 2)}`
+            } catch (error) {
+                result.innerHTML = `❌ Erro: ${error.message}`
+            }
+        }
+    </script>
+</body>
+</html>
