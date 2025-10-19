@@ -21,10 +21,10 @@ git commit -m "Initial commit"
 
 ### 2. Configure o repositório remoto
 
-Substitua `SEU-USUARIO` pelo seu nome de usuário do GitHub:
+Substitua `<SEU-USUARIO>` pelo seu nome de usuário do GitHub:
 
 ```bash
-git remote add origin https://github.com/SEU-USUARIO/sala-sinais-pro.git
+git remote add origin https://github.com/<SEU-USUARIO>/sala-sinais-pro.git
 ```
 
 ### 3. Envie o código para o GitHub
