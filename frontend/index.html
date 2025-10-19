@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CSI Invest — Sala de Sinais PRO</title>
+    <meta name="description" content="Assine a Sala de Sinais PRO. Pagamento por Stripe ou Mercado Pago. Telegram automático." />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container header">
+      <div class="brand">
+        <div class="logo">CSI <span>INVEST</span></div>
+        <nav>
+          <a href="#planos">Planos</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="./admin.html">Admin</a>
+        </nav>
+      </div>
+      <a class="btn btn-primary" href="#planos">Assinar</a>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero container fade-in">
+      <div class="copy">
+        <div class="hero-logo">CSI <span>INVEST</span></div>
+        <h1>Sala de Sinais <span>PRO</span></h1>
+        <p>🚀 Receba sinais de trading profissionais diretamente no seu Telegram com entrada, stop loss, take profits e análise completa. Sistema 100% automatizado!</p>
+        <div class="cta">
+          <a class="btn btn-primary btn-large pulse" href="#captura">💎 Quero Começar Grátis</a>
+          <button class="btn btn-ghost" id="btnAbrirExemplo">📊 Ver Exemplo</button>
+        </div>
+        <div class="badges">
+          <span>🤖 Telegram Bot</span>
+          <span>📈 TradingView</span>
+          <span>💳 Pagamento Seguro</span>
+          <span>⚡ Tempo Real</span>
+        </div>
+      </div>
+
+      <div class="card sample">
+        <h3>📱 Exemplo no Telegram</h3>
+        <pre class="code" id="blocoExemplo">📣 <b>SINAL — BTC/USDT</b>
+
+▶ <b>Tipo:</b> 🟢 COMPRA
+⏱ <b>Timeframe:</b> 1H
+📍 <b>Entrada:</b> 66400
+⚠️ <b>Stop Loss:</b> 65200 (−1.81%)
+
+🎯 <b>TP1:</b> 67800 (+2.10%)
+🎯 <b>TP2:</b> 69500 (+4.79%)
+🎯 <b>TP3:</b> 71200 (+7.23%)
+
+💎 <b>Risco:</b> 1%
+🔎 <b>Análise:</b> Rompimento de resistência + RSI oversold + Volume crescente
+
+� Hoje às 14:30 (GMT-3)
+
+📈 <i>CSI Invest — Sala de Sinais PRO</i></pre>
+      </div>
+    </section>
+
+    <!-- LEAD CAPTURE -->
+    <section id="captura" class="lead-capture container fade-in">
+      <h3>🎯 Comece com 7 Dias Grátis!</h3>
+      <p>Cadastre-se agora e receba sinais profissionais no seu Telegram por <strong>7 dias gratuitamente</strong>. Sem compromisso!</p>
+      
+      <form class="lead-form" id="leadForm">
+        <input type="email" id="leadEmail" placeholder="📧 Seu melhor e-mail" required>
+        <input type="text" id="leadName" placeholder="👤 Seu nome" required>
+        <button type="submit" class="btn btn-primary">🚀 Começar Grátis</button>
+      </form>
+      
+      <p class="muted">✅ Sem cartão de crédito • ✅ Cancelar a qualquer momento • ✅ Suporte 24h</p>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section id="como-funciona" class="container grid-3 steps">
+      <div class="step"><h4>1) Assine</h4><p>Escolha um plano e conclua o pagamento.</p></div>
+      <div class="step"><h4>2) Acesse</h4><p>O bot te adiciona ao canal privado do Telegram automaticamente.</p></div>
+      <div class="step"><h4>3) Receba Sinais</h4><p>Alertas com entrada, SL/TP e motivo — em tempo real.</p></div>
+    </section>
+
+    <!-- PLANOS -->
+    <section id="planos" class="container plans">
+      <h2>Planos</h2>
+      <div class="cards">
+        <div class="card plan">
+          <h3>Básico</h3>
+          <p class="price">R$ 39/mês</p>
+          <ul>
+            <li>Até 5 sinais/semana</li>
+            <li>Canal privado</li>
+            <li>Histórico mensal</li>
+          </ul>
+          <div class="checkout">
+            <button class="btn btn-primary" onclick="abrirCheckout('basic','stripe')">Stripe</button>
+            <button class="btn btn-ghost"  onclick="abrirCheckout('basic','mp')">Mercado Pago</button>
+            <button class="btn btn-outline" onclick="abrirModalRecorrente('basic')">MP Recorrente</button>
+          </div>
+        </div>
+
+        <div class="card plan featured">
+          <h3>Pro</h3>
+          <p class="price">R$ 99/mês</p>
+          <ul>
+            <li>Sinais ilimitados</li>
+            <li>Prioridade de alertas</li>
+            <li>Histórico detalhado</li>
+          </ul>
+          <div class="checkout">
+            <button class="btn btn-primary" onclick="abrirCheckout('pro','stripe')">Stripe</button>
+            <button class="btn btn-ghost"  onclick="abrirCheckout('pro','mp')">Mercado Pago</button>
+            <button class="btn btn-outline" onclick="abrirModalRecorrente('pro')">MP Recorrente</button>
+          </div>
+        </div>
+
+        <div class="card plan">
+          <h3>VIP</h3>
+          <p class="price">R$ 299/mês</p>
+          <ul>
+            <li>Sinais premium</li>
+            <li>Mentoria e 1:1</li>
+            <li>Alertas privados</li>
+          </ul>
+          <div class="checkout">
+            <button class="btn btn-primary" onclick="abrirCheckout('vip','stripe')">Stripe</button>
+            <button class="btn btn-ghost"  onclick="abrirCheckout('vip','mp')">Mercado Pago</button>
+            <button class="btn btn-outline" onclick="abrirModalRecorrente('vip')">MP Recorrente</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL: MP RECORRENTE -->
+    <div class="modal" id="modalRecorrente" aria-hidden="true">
+      <div class="modal-content">
+        <button class="modal-close" onclick="fecharModal()">&times;</button>
+        <h3>Assinatura Recorrente (Mercado Pago)</h3>
+        <p>Informe seu e-mail para criar a assinatura mensal automática no Mercado Pago.</p>
+        <label>E-mail</label>
+        <input id="emailRecorrente" type="email" placeholder="seuemail@exemplo.com" />
+        <div class="row">
+          <button class="btn btn-primary" id="btnAssinarMP">Criar assinatura</button>
+          <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+        </div>
+        <p class="muted modal-footer-text">Ao concluir, você será redirecionado. Após aprovado, o acesso ao Telegram é liberado automaticamente.</p>
+      </div>
+    </div>
+
+    <footer class="container footer">
+      <p>© 2025 CSI Invest — Sala de Sinais PRO. Todos os direitos reservados.</p>
+      <a href="../legal/termos-de-uso.md" target="_blank">Termos</a> ·
+      <a href="../legal/politica-de-reembolso.md" target="_blank">Reembolso</a>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

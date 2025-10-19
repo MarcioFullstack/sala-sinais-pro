@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin — Sala de Sinais PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+
+  </head>
+  <body class="container">
+    <div class="admin fade-in">
+      <h1>🚀 Admin — Sala de Sinais PRO</h1>
+      
+      <div id="auth" class="section-card">
+        <div class="grid">
+          <div class="full form-group">
+            <label>📧 Email</label>
+            <input id="email" placeholder="admin@csi.invest" />
+          </div>
+          <div class="full form-group">
+            <label>🔐 Senha</label>
+            <input id="password" type="password" placeholder="••••••••" />
+          </div>
+        </div>
+        <div class="cta">
+          <button id="btn-login" class="btn btn-primary">
+            🚪 Entrar
+          </button>
+        </div>
+      </div>
+
+      <div id="panel" class="hidden">
+        <div class="section-card">
+          <h3>📈 Enviar Sinal</h3>
+          <div class="grid grid-3">
+            <div class="form-group">
+              <label>💰 Ativo</label>
+              <input id="symbol" placeholder="BTC/USDT" />
+            </div>
+            <div class="form-group">
+              <label>📊 Direção</label>
+              <select id="direction" title="Direção do sinal">
+                <option value="buy">🟢 Buy (Compra)</option>
+                <option value="sell">🔴 Sell (Venda)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>⏰ Timeframe</label>
+              <input id="tf" placeholder="1H, 4H, 1D..." />
+            </div>
+            <div class="form-group">
+              <label>🎯 Entrada</label>
+              <input id="entry" type="number" step="0.00001" placeholder="0.00000" />
+            </div>
+            <div class="form-group">
+              <label>🛑 Stop Loss</label>
+              <input id="stop" type="number" step="0.00001" placeholder="0.00000" />
+            </div>
+            <div class="form-group">
+              <label>💎 Take Profits</label>
+              <input id="tps" placeholder="67800, 69500, 72000" />
+            </div>
+            <div class="full form-group">
+              <label>📝 Motivo/Análise</label>
+              <textarea id="reason" rows="3" placeholder="Padrão de reversão + RSI divergente + Volume crescente..."></textarea>
+            </div>
+            <div class="full form-group">
+              <label>🖼️ Imagem do Gráfico (URL)</label>
+              <input id="imageUrl" placeholder="https://tradingview.com/chart/..." />
+            </div>
+          </div>
+          <div class="cta">
+            <button id="btn-send-signal" class="btn btn-primary">
+              📤 Enviar Sinal ao Telegram
+            </button>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h3>👥 Gerenciar Usuários</h3>
+          <div class="row mb-0">
+            <input id="new_email" placeholder="📧 email@cliente.com" />
+            <input id="new_name" placeholder="👤 Nome Completo" />
+            <select id="new_plan" title="Plano do usuário">
+              <option value="basic">🥉 Básico</option>
+              <option value="pro">🥈 Pro</option>
+              <option value="vip">🥇 VIP</option>
+            </select>
+            <select id="new_status" title="Status inicial do usuário">
+              <option value="active">✅ Ativo</option>
+              <option value="expired">⏰ Expirado</option>
+              <option value="canceled">❌ Cancelado</option>
+            </select>
+            <input id="new_valid" type="date" placeholder="Validade" />
+            <button id="btn-create-user" class="btn btn-success">
+              ➕ Criar Usuário
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>📧 Email</th>
+                <th>📋 Plano</th>
+                <th>🔄 Status</th>
+                <th>📅 Validade</th>
+                <th>🏷️ MP ID</th>
+                <th>⚙️ Ações</th>
+              </tr>
+            </thead>
+            <tbody id="users"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script>
+      let token = null
+      async function login(){
+        console.log('🔐 Login function called')
+        const email = document.getElementById('email').value
+        const password = document.getElementById('password').value
+        console.log('📧 Email:', email, '🔑 Password:', password ? '***' : 'empty')
+        const r = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email, password }) })
+        console.log('📡 Response status:', r.status)
+        const data = await r.json()
+        console.log('📦 Response data:', data)
+        if(data.token){
+          token = data.token
+          document.getElementById('auth').classList.add('hidden')
+          document.getElementById('panel').classList.remove('hidden')
+          document.getElementById('panel').classList.add('fade-in')
+          loadUsers()
+        }else alert('❌ Falha no login! Verifique suas credenciais.')
+      }
+      async function loadUsers(){
+        const r = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer '+token } })
+        const data = await r.json()
+        const tbody = document.getElementById('users'); tbody.innerHTML=''
+        ;(data||[]).forEach(u=>{
+          const tr = document.createElement('tr')
+          const valid = u.validUntil ? new Date(u.validUntil).toISOString().slice(0,10) : ''
+          const planIcon = u.plan === 'vip' ? '🥇' : u.plan === 'pro' ? '🥈' : '🥉'
+          const statusIcon = u.status === 'active' ? '✅' : u.status === 'expired' ? '⏰' : '❌'
+          tr.innerHTML = `
+            <td><input data-id="${u._id}" data-field="email" value="${u.email||''}" title="Email do usuário" /></td>
+            <td>
+              <select data-id="${u._id}" data-field="plan" title="Plano do usuário">
+                <option value="basic" ${u.plan==='basic'?'selected':''}>🥉 Básico</option>
+                <option value="pro" ${u.plan==='pro'?'selected':''}>🥈 Pro</option>
+                <option value="vip" ${u.plan==='vip'?'selected':''}>🥇 VIP</option>
+              </select>
+            </td>
+            <td>
+              <select data-id="${u._id}" data-field="status" title="Status do usuário">
+                <option value="active" ${u.status==='active'?'selected':''}>✅ Ativo</option>
+                <option value="expired" ${u.status==='expired'?'selected':''}>⏰ Expirado</option>
+                <option value="canceled" ${u.status==='canceled'?'selected':''}>❌ Cancelado</option>
+              </select>
+            </td>
+            <td><input data-id="${u._id}" data-field="validUntil" type="date" value="${valid}" title="Data de validade" /></td>
+            <td><input disabled value="${u.preapprovalId||''}" class="muted" title="ID da assinatura no Mercado Pago" /></td>
+            <td class="actions">
+              <button class="btn btn-success" data-action="save" data-id="${u._id}" title="Salvar alterações">💾 Salvar</button>
+              <button class="btn btn-danger" data-action="delete" data-id="${u._id}" title="Excluir usuário">🗑️ Excluir</button>
+              <button class="btn btn-secondary" data-action="mp-subscribe" data-email="${u.email}" data-plan="${u.plan}" title="Criar assinatura MP">💳 MP Assinar</button>
+              <button class="btn btn-secondary" data-action="mp-cancel" data-id="${u._id}" title="Cancelar assinatura MP">⏹️ Cancelar MP</button>
+            </td>`
+          tbody.appendChild(tr)
+        })
+      }
+      // Event delegation for dynamic user table actions
+      document.getElementById('users').addEventListener('click', async (e)=>{
+        const btn = e.target.closest('button[data-action]')
+        if(!btn) return
+        const action = btn.dataset.action
+        const id = btn.dataset.id
+        if(action==='save') return saveUser(id)
+        if(action==='delete') return delUser(id)
+        if(action==='mp-subscribe') return mpSubscribe(btn.dataset.email, btn.dataset.plan)
+        if(action==='mp-cancel') return mpCancel(id)
+      })
+      async function sendSignal(){
+        const body = {
+          symbol: document.getElementById('symbol').value,
+          direction: document.getElementById('direction').value,
+          timeframe: document.getElementById('tf').value,
+          entry: Number(document.getElementById('entry').value),
+          stop: Number(document.getElementById('stop').value),
+          tps: document.getElementById('tps').value.split(',').map(s=>Number(s.trim())).filter(Boolean),
+          reason: document.getElementById('reason').value,
+          imageUrl: document.getElementById('imageUrl').value
+        }
+        const r = await fetch('/api/signals', { method:'POST', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+token }, body: JSON.stringify(body) })
+        const data = await r.json()
+        if(data.ok) alert('🚀 Sinal enviado com sucesso ao Telegram!'); else alert('❌ Falha ao enviar sinal. Tente novamente.')
+      }
+      async function createUser(){
+        const body = {
+          email: document.getElementById('new_email').value,
+          name: document.getElementById('new_name').value,
+          plan: document.getElementById('new_plan').value,
+          status: document.getElementById('new_status').value,
+          validUntil: document.getElementById('new_valid').value ? new Date(document.getElementById('new_valid').value) : null
+        }
+        const r = await fetch('/api/admin/users', { method:'POST', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+token }, body: JSON.stringify(body) })
+        if(r.ok){ 
+          loadUsers()
+          // Limpar campos após criar
+          document.getElementById('new_email').value = ''
+          document.getElementById('new_name').value = ''
+          document.getElementById('new_valid').value = ''
+          alert('✅ Usuário criado com sucesso!')
+        } else alert('❌ Falha ao criar usuário. Verifique os dados.')
+      }
+      async function saveUser(id){
+        const inputs = document.querySelectorAll(`[data-id="${id}"]`)
+        const patch = {}; inputs.forEach(el=>{ let v = el.value; if(el.dataset.field==='validUntil'&&v) v=new Date(v); patch[el.dataset.field]=v })
+        const r = await fetch('/api/admin/users/'+id, { method:'PATCH', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+token }, body: JSON.stringify(patch) })
+        if(r.ok) alert('Salvo ✅'); else alert('Falha ao salvar')
+      }
+      async function delUser(id){
+        if(!confirm('Excluir usuário?')) return
+        const r = await fetch('/api/admin/users/'+id, { method:'DELETE', headers:{ 'Authorization':'Bearer '+token } })
+        if(r.ok) loadUsers(); else alert('Falha ao excluir')
+      }
+      async function mpSubscribe(email, plan){
+        const r = await fetch('/api/mp/checkout/subscribe', { method:'POST', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+token }, body: JSON.stringify({ email, plan }) })
+        const d = await r.json()
+        if(d.ok) alert('Assinatura MP criada ✅'); else alert('Falha MP: '+(d.error||''))
+      }
+      async function mpCancel(userId){
+        const r = await fetch('/api/mp/checkout/subscribe/cancel/'+userId, {
+          method:'POST',
+          headers:{ 'Authorization':'Bearer '+token }
+        })
+        const d = await r.json()
+        if(d.ok){ alert('Assinatura pausada/cancelada ✅'); loadUsers() } else { alert('Falha ao cancelar: '+(d.error||'')) }
+      }
+
+      // Attach event listeners to static buttons (avoid inline onclick due to CSP)
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('🔧 DOM loaded, attaching event listeners...')
+        const btnLogin = document.getElementById('btn-login')
+        if(btnLogin) {
+          console.log('✅ Login button found, attaching listener')
+          btnLogin.addEventListener('click', login)
+        } else {
+          console.error('❌ Login button NOT found!')
+        }
+        
+        const btnSendSignal = document.getElementById('btn-send-signal')
+        if(btnSendSignal) {
+          btnSendSignal.addEventListener('click', sendSignal)
+        }
+        
+        const btnCreateUser = document.getElementById('btn-create-user')
+        if(btnCreateUser) {
+          btnCreateUser.addEventListener('click', createUser)
+        }
+        
+        console.log('🔧 Event listeners attached')
+      })
+    </script>
+  </body>
+</html>
