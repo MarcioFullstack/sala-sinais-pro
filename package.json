@@ -28,5 +28,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/MarcioFullstack/sala-sinais-pro.git"
+  },
+  "dependencies": {
+    "stripe": "^19.1.0"
   }
 }

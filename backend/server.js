@@ -13,6 +13,7 @@ import telegramWebhookRoutes from './routes/telegramWebhook.js'
 import signalsRoutes from './routes/signals.js'
 import adminRoutes from './routes/admin.js'
 import leadsRoutes from './routes/leads.js'
+import plansRoutes from './routes/plans-simple.js'
 import { auth } from './middleware/auth.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -95,7 +96,14 @@ app.use('/api/webhook', webhookRoutes)
 app.use('/api/telegram', telegramWebhookRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/leads', leadsRoutes)
+app.use('/api/plans', plansRoutes)
 app.use('/api/signals', auth, signalsRoutes)
+
+// Webhook do Stripe (raw body needed)
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const { stripeWebhook } = await import('./controllers/paymentStripeController.js')
+  return stripeWebhook(req, res)
+})
 
 // Rota de debug específica para admin
 app.get('/debug/admin', (req, res) => {

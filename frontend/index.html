@@ -84,51 +84,13 @@
 
     <!-- PLANOS -->
     <section id="planos" class="container plans">
-      <h2>Planos</h2>
-      <div class="cards">
-        <div class="card plan">
-          <h3>Básico</h3>
-          <p class="price">R$ 39/mês</p>
-          <ul>
-            <li>Até 5 sinais/semana</li>
-            <li>Canal privado</li>
-            <li>Histórico mensal</li>
-          </ul>
-          <div class="checkout">
-            <button class="btn btn-primary" onclick="abrirCheckout('basic','stripe')">Stripe</button>
-            <button class="btn btn-ghost"  onclick="abrirCheckout('basic','mp')">Mercado Pago</button>
-            <button class="btn btn-outline" onclick="abrirModalRecorrente('basic')">MP Recorrente</button>
-          </div>
-        </div>
-
-        <div class="card plan featured">
-          <h3>Pro</h3>
-          <p class="price">R$ 99/mês</p>
-          <ul>
-            <li>Sinais ilimitados</li>
-            <li>Prioridade de alertas</li>
-            <li>Histórico detalhado</li>
-          </ul>
-          <div class="checkout">
-            <button class="btn btn-primary" onclick="abrirCheckout('pro','stripe')">Stripe</button>
-            <button class="btn btn-ghost"  onclick="abrirCheckout('pro','mp')">Mercado Pago</button>
-            <button class="btn btn-outline" onclick="abrirModalRecorrente('pro')">MP Recorrente</button>
-          </div>
-        </div>
-
-        <div class="card plan">
-          <h3>VIP</h3>
-          <p class="price">R$ 299/mês</p>
-          <ul>
-            <li>Sinais premium</li>
-            <li>Mentoria e 1:1</li>
-            <li>Alertas privados</li>
-          </ul>
-          <div class="checkout">
-            <button class="btn btn-primary" onclick="abrirCheckout('vip','stripe')">Stripe</button>
-            <button class="btn btn-ghost"  onclick="abrirCheckout('vip','mp')">Mercado Pago</button>
-            <button class="btn btn-outline" onclick="abrirModalRecorrente('vip')">MP Recorrente</button>
-          </div>
+      <h2>🎯 Escolha Seu Plano</h2>
+      <p class="plans-subtitle">Todos os planos incluem acesso ao Telegram e suporte técnico</p>
+      <div class="cards" id="plansContainer">
+        <!-- Planos serão carregados dinamicamente -->
+        <div class="card plan-loading">
+          <h3>⏳ Carregando planos...</h3>
+          <p>Por favor, aguarde</p>
         </div>
       </div>
     </section>

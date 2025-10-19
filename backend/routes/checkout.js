@@ -3,14 +3,28 @@ import { mpCreateCheckout } from '../controllers/paymentMPController.js'
 
 const router = express.Router()
 
-// Checkout root - lista planos disponíveis
+// Checkout root - redireciona para nova API de planos
 router.get('/', (req, res) => {
-  const plans = {
-    basic: { name: 'Básico', price: 39, features: ['Sinais básicos', 'Suporte por email'] },
-    pro: { name: 'Pro', price: 99, features: ['Sinais avançados', 'Análises detalhadas', 'Suporte prioritário'] },
-    vip: { name: 'VIP', price: 299, features: ['Todos os sinais', 'Consultoria personalizada', 'Suporte 24/7', 'Grupo VIP'] }
+  res.redirect('/api/plans')
+})
+
+// Checkout start - compatibilidade com sistema antigo
+router.get('/start', async (req, res) => {
+  try {
+    const { plan } = req.query
+    
+    if (!plan) {
+      return res.status(400).json({ error: 'Plano é obrigatório' })
+    }
+
+    // Redirecionar para Stripe checkout usando controlador existente
+    const { stripeCreateCheckout } = await import('../controllers/paymentStripeController.js')
+    return stripeCreateCheckout(req, res)
+    
+  } catch (error) {
+    console.error('Erro no checkout start:', error.message)
+    res.status(500).json({ error: 'Erro interno do servidor' })
   }
-  res.json({ ok: true, plans })
 })
 
 // Create checkout (MP integration)
