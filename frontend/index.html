@@ -78,25 +78,27 @@
             <label for="leadName"><span class="form-icon">👤</span> Seu nome completo</label>
             <input type="text" id="leadName" name="leadName" placeholder="Seu nome" required autocomplete="name">
           </div>
-          <div class="checklist">
-            <h4 class="checklist-title">📋 Informações Necessárias:</h4>
-            <div class="checklist-item">
-              <input type="checkbox" id="check-email" name="check-email">
-              <label for="check-email">Email válido (que você tem acesso)</label>
+          <fieldset class="checklist checklist-responsive">
+            <legend class="checklist-title"><span class="checklist-icon">📋</span> Informações Necessárias</legend>
+            <div class="checklist-list">
+              <div class="checklist-item">
+                <input type="checkbox" id="check-email" name="check-email">
+                <label for="check-email"><span class="checklist-label-icon">📧</span> Email válido (que você tem acesso)</label>
+              </div>
+              <div class="checklist-item">
+                <input type="checkbox" id="check-senha" name="check-senha">
+                <label for="check-senha"><span class="checklist-label-icon">🔒</span> Senha forte (mínimo 8 caracteres)</label>
+              </div>
+              <div class="checklist-item">
+                <input type="checkbox" id="check-termos" name="check-termos">
+                <label for="check-termos"><span class="checklist-label-icon">✅</span> Aceitar termos e condições</label>
+              </div>
+              <div class="checklist-item">
+                <input type="checkbox" id="check-idade" name="check-idade">
+                <label for="check-idade"><span class="checklist-label-icon">🎂</span> Confirmar que é maior de 18 anos</label>
+              </div>
             </div>
-            <div class="checklist-item">
-              <input type="checkbox" id="check-senha" name="check-senha">
-              <label for="check-senha">Senha forte (mínimo 8 caracteres)</label>
-            </div>
-            <div class="checklist-item">
-              <input type="checkbox" id="check-termos" name="check-termos">
-              <label for="check-termos">Aceitar termos e condições</label>
-            </div>
-            <div class="checklist-item">
-              <input type="checkbox" id="check-idade" name="check-idade">
-              <label for="check-idade">Confirmar que é maior de 18 anos</label>
-            </div>
-          </div>
+          </fieldset>
           <button type="submit" class="btn btn-primary btn-block">🚀 Começar Grátis</button>
         </fieldset>
       </form>
@@ -116,37 +118,15 @@
         <p class="educational-subtitle">Guias completos para começar no mundo das criptomoedas com segurança</p>
       </div>
 
-      <div class="educational-chart">
-        <!-- TradingView Widget BEGIN -->
-        <div class="chart-wrapper">
-          <div id="educativo-tradingview"></div>
+      <div class="educational-video">
+        <h4 class="video-title">🎥 Assista ao vídeo educativo criado com IA</h4>
+        <div class="video-wrapper">
+          <!-- Substitua o src abaixo pelo link do seu vídeo -->
+          <video controls width="100%" poster="video-poster.png" style="border-radius:16px;box-shadow:0 4px 24px #0008;max-width:700px;">
+            <source src="seu-video-educativo.mp4" type="video/mp4">
+            Seu navegador não suporta vídeo HTML5.
+          </video>
         </div>
-        <script type="text/javascript">
-          if (!window.educativoTradingViewLoaded) {
-            window.educativoTradingViewLoaded = true;
-            var script = document.createElement('script');
-            script.src = "https://s3.tradingview.com/tv.js";
-            script.onload = function() {
-              new TradingView.widget({
-                "width": "100%",
-                "height": 340,
-                "symbol": "BINANCE:BTCUSDT",
-                "interval": "15",
-                "timezone": "America/Sao_Paulo",
-                "theme": "dark",
-                "style": "1",
-                "locale": "br",
-                "toolbar_bg": "#181c24",
-                "enable_publishing": false,
-                "hide_top_toolbar": false,
-                "save_image": false,
-                "container_id": "educativo-tradingview"
-              });
-            };
-            document.body.appendChild(script);
-          }
-        </script>
-        <!-- TradingView Widget END -->
       </div>
 
   <div class="educational-grid">

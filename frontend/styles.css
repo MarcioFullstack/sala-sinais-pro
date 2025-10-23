@@ -1,3 +1,74 @@
+/* CHECKLIST RESPONSIVO - MELHORADO */
+.checklist-responsive {
+  background: rgba(45,55,72,0.12);
+  border-radius: 14px;
+  padding: 18px 14px;
+  margin: 18px 0 10px 0;
+  box-shadow: 0 2px 8px #23283b22;
+  border: none;
+}
+.checklist-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.checklist-icon {
+  font-size: 1.4rem;
+}
+.checklist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+.checklist-item input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  margin-right: 4px;
+}
+.checklist-label-icon {
+  font-size: 1.2rem;
+  margin-right: 4px;
+}
+.checklist-item label {
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+@media (max-width: 700px) {
+  .checklist-responsive {
+    padding: 10px 4px;
+    border-radius: 8px;
+  }
+  .checklist-title {
+    font-size: 1rem;
+  }
+  .checklist-list {
+    gap: 10px;
+  }
+  .checklist-item {
+    font-size: 0.98rem;
+    gap: 7px;
+  }
+  .checklist-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+}
 /* CHECKLIST - FORMULÁRIO */
 .checklist {
   background: rgba(45,55,72,0.12);
