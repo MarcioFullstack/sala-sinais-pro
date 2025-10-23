@@ -1,39 +1,164 @@
+/* EDUCATIVO - NOVOS ESTILOS */
+.educational-section {
+  background: linear-gradient(135deg,#181c24 0%,#23283b 100%);
+  border-radius: 24px;
+  padding: 60px 20px;
+  box-shadow: 0 8px 32px #000a;
+  margin-bottom: 40px;
+}
+.educational-header {
+  background: linear-gradient(90deg,#23283b 0%,#181c24 100%);
+  border-radius: 18px;
+  padding: 40px 20px 30px 20px;
+  box-shadow: 0 8px 32px #23283b44;
+  margin-bottom: 32px;
+}
+.educational-title {
+  font-size: 2.7rem;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 2px 12px #6a11cb80;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+.educational-subtitle {
+  color: #bfc8e6;
+  font-size: 1.25rem;
+  margin-top: 10px;
+}
+.educational-chart {
+  margin: 40px 0 32px 0;
+  text-align: center;
+}
+.chart-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+#educativo-tradingview {
+  height: 340px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #181c24;
+  box-shadow: 0 4px 24px #0008;
+}
+.educational-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.educational-card {
+  background: linear-gradient(135deg,#23283b 60%,#181c24 100%);
+  box-shadow: 0 4px 24px #23283b22;
+  border-radius: 20px;
+  transition: .3s;
+  position: relative;
+  overflow: hidden;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.card-icon {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 12px #23283b44;
+}
+.card-binance .card-icon { color: #007bff; text-shadow: 0 2px 12px #007bff44; }
+.card-fundamentos .card-icon { color: #6a11cb; text-shadow: 0 2px 12px #6a11cb44; }
+.card-risco .card-icon { color: #28a745; text-shadow: 0 2px 12px #28a74544; }
+.card-estrategias .card-icon { color: #f39c12; text-shadow: 0 2px 12px #f39c1244; }
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.card-desc {
+  color: #bfc8e6;
+  font-size: 1.05rem;
+  margin-bottom: 18px;
+}
+.educational-features {
+  margin-bottom: 10px;
+  padding-left: 18px;
+}
+.btn-educational {
+  margin-top: 10px;
+  background: #007bff;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 12px 28px;
+  border-radius: 24px;
+  box-shadow: 0 2px 12px #007bff22;
+  border: none;
+  transition: background 0.2s;
+}
+.btn-educational:hover {
+  background: #0056b3;
+}
+.educational-cta {
+  background: linear-gradient(90deg,#23283b 0%,#181c24 100%);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  margin-top: 40px;
+  box-shadow: 0 4px 24px #0008;
+}
+.cta-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.cta-desc {
+  color: #bfc8e6;
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+}
+@media (max-width: 700px) {
+  .educational-section {
+    padding: 24px 4px;
+    border-radius: 12px;
+  }
+  .educational-header {
+    padding: 18px 8px 14px 8px;
+    border-radius: 10px;
+  }
+  .educational-title {
+    font-size: 1.5rem;
+  }
+  .educational-subtitle {
+    font-size: 1rem;
+  }
+  .educational-card {
+    padding: 18px 8px;
+    border-radius: 10px;
+  }
+  .card-title {
+    font-size: 1.1rem;
+  }
+  .card-desc {
+    font-size: 0.98rem;
+  }
+  .educational-cta {
+    padding: 18px 8px;
+    border-radius: 10px;
+  }
+  .cta-title {
+    font-size: 1.1rem;
+  }
+  .cta-desc {
+    font-size: 0.98rem;
+  }
+  #educativo-tradingview {
+    height: 180px;
+    border-radius: 10px;
+  }
+}
 /* RESPONSIVIDADE MOBILE GERAL */
 @media (max-width: 600px) {
-  #simulador-tradingview, #tradingview-widget {
-    height: 220px !important;
-    min-width: 0 !important;
-    max-width: 100vw !important;
-    border-radius: 8px !important;
-  }
-  .simulador-panel, .simulador-historico {
-    padding: 6px 2px !important;
-    font-size: 0.98rem !important;
-  }
-  .simulador-panel input, #simulador-trader {
-    width: 100% !important;
-    min-width: 0 !important;
-    font-size: 0.98rem !important;
-    margin-bottom: 8px !important;
-  }
-  .simulador-panel button {
-    width: 100% !important;
-    margin-bottom: 8px !important;
-  }
-  .simulador-panel label {
-    width: 100%;
-    margin-bottom: 4px;
-    display: block;
-    text-align: left;
-  }
-  .simulador-panel > div {
-    flex-direction: column !important;
-    gap: 8px !important;
-    align-items: stretch !important;
-  }
-  .simulador-historico ul {
-    font-size: 0.95rem !important;
-  }
 }
   html, body {
     font-size: 15px;

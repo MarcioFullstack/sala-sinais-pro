@@ -84,16 +84,16 @@
     </section>
 
     <!-- SEÇÃO EDUCATIVA -->
-    <section id="educativo" class="container educational-section fade-in" style="background:linear-gradient(135deg,#181c24 0%,#23283b 100%);border-radius:24px;padding:60px 20px;box-shadow:0 8px 32px #000a;">
-      <div class="educational-header" style="background: linear-gradient(90deg,#23283b 0%,#181c24 100%); border-radius: 18px; padding: 40px 20px 30px 20px; box-shadow: 0 8px 32px #23283b44;">
-        <h2 style="font-size:2.7rem;font-weight:900;color:#fff;text-shadow:0 2px 12px #6a11cb80;letter-spacing:-1px;">📚 Aprenda Trading do Zero</h2>
-        <p class="educational-subtitle" style="color:#bfc8e6;font-size:1.25rem;margin-top:10px;">Guias completos para começar no mundo das criptomoedas com segurança</p>
+    <section id="educativo" class="container educational-section fade-in">
+      <div class="educational-header">
+        <h2 class="educational-title">📚 Aprenda Trading do Zero</h2>
+        <p class="educational-subtitle">Guias completos para começar no mundo das criptomoedas com segurança</p>
       </div>
 
-      <div style="margin:40px 0 32px 0;text-align:center;">
+      <div class="educational-chart">
         <!-- TradingView Widget BEGIN -->
-        <div style="max-width:1000px;margin:0 auto;">
-          <div id="educativo-tradingview" style="height:340px;border-radius:18px;overflow:hidden;background:#181c24;box-shadow:0 4px 24px #0008;"></div>
+        <div class="chart-wrapper">
+          <div id="educativo-tradingview"></div>
         </div>
         <script type="text/javascript">
           if (!window.educativoTradingViewLoaded) {
@@ -123,64 +123,64 @@
         <!-- TradingView Widget END -->
       </div>
 
-      <div class="educational-grid" style="margin-top:40px;">
-        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #007bff22;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
-          <div class="card-icon" style="font-size:3.5rem;color:#007bff;text-shadow:0 2px 12px #007bff44;">🏦</div>
-          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Como Abrir Conta na Binance</h3>
-          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Guia completo passo-a-passo para criar sua conta, fazer verificação KYC e realizar seu primeiro depósito com segurança.</p>
-          <ul class="educational-features" style="margin-bottom:10px;">
+  <div class="educational-grid">
+        <div class="educational-card card-binance">
+          <div class="card-icon">🏦</div>
+          <h3 class="card-title">Como Abrir Conta na Binance</h3>
+          <p class="card-desc">Guia completo passo-a-passo para criar sua conta, fazer verificação KYC e realizar seu primeiro depósito com segurança.</p>
+          <ul class="educational-features">
             <li>✅ Cadastro e verificação</li>
             <li>✅ Configuração de segurança</li>
             <li>✅ Primeiro depósito</li>
             <li>✅ Dicas de proteção</li>
           </ul>
-          <a href="./educativo.html#binance" class="btn btn-educational" style="margin-top:10px;background:#007bff;color:#fff;">Ver Guia</a>
+          <a href="./educativo.html#binance" class="btn btn-educational">Ver Guia</a>
         </div>
 
-        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #6a11cb22;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
-          <div class="card-icon" style="font-size:3.5rem;color:#6a11cb;text-shadow:0 2px 12px #6a11cb44;">📊</div>
-          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Fundamentos do Trading</h3>
-          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Aprenda os conceitos básicos, terminologia essencial e tipos de operações no mercado de criptomoedas.</p>
-          <ul class="educational-features" style="margin-bottom:10px;">
+        <div class="educational-card card-fundamentos">
+          <div class="card-icon">📊</div>
+          <h3 class="card-title">Fundamentos do Trading</h3>
+          <p class="card-desc">Aprenda os conceitos básicos, terminologia essencial e tipos de operações no mercado de criptomoedas.</p>
+          <ul class="educational-features">
             <li>✅ Tipos de trading</li>
             <li>✅ Análise técnica básica</li>
             <li>✅ Principais indicadores</li>
             <li>✅ Terminologia do mercado</li>
           </ul>
-          <a href="./educativo.html#trading-basics" class="btn btn-educational" style="margin-top:10px;background:#6a11cb;color:#fff;">Ver Guia</a>
+          <a href="./educativo.html#trading-basics" class="btn btn-educational">Ver Guia</a>
         </div>
 
-        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #28a74522;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
-          <div class="card-icon" style="font-size:3.5rem;color:#28a745;text-shadow:0 2px 12px #28a74544;">🛡️</div>
-          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Gerenciamento de Risco</h3>
-          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Estratégias fundamentais para proteger seu capital e operar com responsabilidade no mercado cripto.</p>
-          <ul class="educational-features" style="margin-bottom:10px;">
+        <div class="educational-card card-risco">
+          <div class="card-icon">🛡️</div>
+          <h3 class="card-title">Gerenciamento de Risco</h3>
+          <p class="card-desc">Estratégias fundamentais para proteger seu capital e operar com responsabilidade no mercado cripto.</p>
+          <ul class="educational-features">
             <li>✅ Regra dos 2%</li>
             <li>✅ Stop Loss e Take Profit</li>
             <li>✅ Diversificação</li>
             <li>✅ Controle emocional</li>
           </ul>
-          <a href="./educativo.html#risk-management" class="btn btn-educational" style="margin-top:10px;background:#28a745;color:#fff;">Ver Guia</a>
+          <a href="./educativo.html#risk-management" class="btn btn-educational">Ver Guia</a>
         </div>
 
-        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #f39c1222;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
-          <div class="card-icon" style="font-size:3.5rem;color:#f39c12;text-shadow:0 2px 12px #f39c1244;">🎯</div>
-          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Estratégias de Trading</h3>
-          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Conheça as principais estratégias utilizadas por traders profissionais, desde DCA até Grid Trading.</p>
-          <ul class="educational-features" style="margin-bottom:10px;">
+        <div class="educational-card card-estrategias">
+          <div class="card-icon">🎯</div>
+          <h3 class="card-title">Estratégias de Trading</h3>
+          <p class="card-desc">Conheça as principais estratégias utilizadas por traders profissionais, desde DCA até Grid Trading.</p>
+          <ul class="educational-features">
             <li>✅ Dollar Cost Average</li>
             <li>✅ Grid Trading</li>
             <li>✅ Breakout Trading</li>
             <li>✅ Swing Trading</li>
           </ul>
-          <a href="./educativo.html#strategies" class="btn btn-educational" style="margin-top:10px;background:#f39c12;color:#fff;">Ver Guia</a>
+          <a href="./educativo.html#strategies" class="btn btn-educational">Ver Guia</a>
         </div>
       </div>
 
-      <div class="educational-cta" style="background:linear-gradient(90deg,#23283b 0%,#181c24 100%);border-radius:16px;padding:32px 20px;text-align:center;margin-top:40px;box-shadow:0 4px 24px #0008;">
-        <h3 style="font-size:1.7rem;font-weight:800;color:#fff;margin-bottom:10px;">🚀 Quer Aprender Mais?</h3>
-        <p style="color:#bfc8e6;font-size:1.1rem;margin-bottom:18px;">Acesse nosso guia completo com mais de 50 páginas de conteúdo educativo!</p>
-        <a href="./educativo.html" class="btn btn-educational" style="background:#007bff;color:#fff;font-weight:700;font-size:1.1rem;padding:14px 32px;border-radius:40px;box-shadow:0 2px 12px #007bff22;">📖 Acessar Guia Completo</a>
+      <div class="educational-cta">
+        <h3 class="cta-title">🚀 Quer Aprender Mais?</h3>
+        <p class="cta-desc">Acesse nosso guia completo com mais de 50 páginas de conteúdo educativo!</p>
+        <a href="./educativo.html" class="btn btn-educational">📖 Acessar Guia Completo</a>
       </div>
     </section>
 
