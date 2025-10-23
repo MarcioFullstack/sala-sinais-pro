@@ -15,6 +15,8 @@
         <nav>
           <a href="#planos">Planos</a>
           <a href="#como-funciona">Como funciona</a>
+          <a href="#educativo">Aprenda</a>
+          <a href="./educativo.html">📚 Guia Completo</a>
           <a href="./admin.html">Admin</a>
         </nav>
       </div>
@@ -76,10 +78,198 @@
     </section>
 
     <!-- COMO FUNCIONA -->
+    <!-- SIMULADOR DE NEGOCIAÇÃO -->
+    <section id="simulador" class="container fade-in" style="margin-top:48px;background:linear-gradient(135deg,#23283b 0%,#181c24 100%);border-radius:24px;padding:44px 20px;box-shadow:0 8px 32px #23283b44;">
+      <h2 style="font-size:2.2rem;font-weight:900;color:#e2e8f0;text-shadow:0 2px 12px #4299e180;letter-spacing:-1px;margin-bottom:18px;">🧪 Simulador de Negociação de Criptomoedas</h2>
+      <p style="color:#bfc8e6;font-size:1.15rem;margin-bottom:24px;">Negocie BTC/USDT com saldo virtual e veja o resultado das suas operações em tempo real.</p>
+      <div style="max-width:900px;margin:0 auto 32px auto;">
+        <div id="simulador-tradingview" style="height:340px;border-radius:18px;overflow:hidden;background:#181c24;box-shadow:0 4px 24px #0008;"></div>
+      </div>
+      <div class="simulador-panel" style="background:rgba(26,32,44,0.92);border-radius:18px;padding:28px 20px;box-shadow:0 4px 24px #4299e122;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">
+        <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center;margin-bottom:18px;">
+          <span style="font-weight:700;color:#e2e8f0;">Saldo virtual:</span>
+          <span id="simulador-saldo" style="font-size:1.3rem;font-weight:800;color:#48bb78;">$10,000.00</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;margin-bottom:18px;">
+          <input id="simulador-quantidade" type="number" min="0.0001" step="0.0001" value="0.01" style="padding:8px 12px;border-radius:8px;border:1px solid #4299e1;background:#23283b;color:#e2e8f0;width:120px;" placeholder="Quantidade BTC">
+          <button class="btn btn-primary" onclick="simuladorComprar()">Comprar BTC</button>
+          <button class="btn btn-accent" onclick="simuladorVender()">Vender BTC</button>
+        </div>
+        <div style="text-align:center;color:#a0aec0;font-size:0.98rem;margin-bottom:8px;">Preço atual: <span id="simulador-preco">Carregando...</span> USDT</div>
+      </div>
+      <div class="simulador-historico" style="background:rgba(45,55,72,0.85);border-radius:14px;padding:18px 14px;box-shadow:0 2px 12px #23283b22;max-width:600px;margin:0 auto;">
+        <h4 style="color:#e2e8f0;font-size:1.15rem;font-weight:700;margin-bottom:10px;">Histórico de Operações</h4>
+        <ul id="simulador-historico-lista" style="list-style:none;padding:0;margin:0;color:#e2e8f0;font-size:0.98rem;"></ul>
+      </div>
+      <script type="text/javascript">
+        // TradingView Widget
+        if (!window.simuladorTradingViewLoaded) {
+          window.simuladorTradingViewLoaded = true;
+          var script = document.createElement('script');
+          script.src = "https://s3.tradingview.com/tv.js";
+          script.onload = function() {
+            new TradingView.widget({
+              "width": "100%",
+              "height": 340,
+              "symbol": "BINANCE:BTCUSDT",
+              "interval": "15",
+              "timezone": "America/Sao_Paulo",
+              "theme": "dark",
+              "style": "1",
+              "locale": "br",
+              "toolbar_bg": "#181c24",
+              "enable_publishing": false,
+              "hide_top_toolbar": false,
+              "save_image": false,
+              "container_id": "simulador-tradingview"
+            });
+          };
+          document.body.appendChild(script);
+        }
+        // Simulador lógica
+        let simuladorSaldo = 10000.00;
+        let simuladorHistorico = [];
+        let simuladorPrecoAtual = 0;
+        function atualizarSaldo() {
+          document.getElementById('simulador-saldo').textContent = `$${simuladorSaldo.toLocaleString('en-US', {minimumFractionDigits:2})}`;
+        }
+        function atualizarHistorico() {
+          const lista = document.getElementById('simulador-historico-lista');
+          lista.innerHTML = simuladorHistorico.length ? simuladorHistorico.map(item => `<li style='margin-bottom:6px;'>${item}</li>`).join('') : '<li style="color:#a0aec0;">Nenhuma operação realizada ainda.</li>';
+        }
+        function atualizarPreco() {
+          fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
+            .then(r=>r.json())
+            .then(data=>{
+              simuladorPrecoAtual = parseFloat(data.price);
+              document.getElementById('simulador-preco').textContent = simuladorPrecoAtual.toLocaleString('en-US', {minimumFractionDigits:2});
+            });
+        }
+        function simuladorComprar() {
+          const qtd = parseFloat(document.getElementById('simulador-quantidade').value);
+          if (!simuladorPrecoAtual || isNaN(qtd) || qtd <= 0) return alert('Informe uma quantidade válida e aguarde o preço.');
+          const custo = qtd * simuladorPrecoAtual;
+          if (custo > simuladorSaldo) return alert('Saldo insuficiente.');
+          simuladorSaldo -= custo;
+          simuladorHistorico.unshift(`🟢 Comprou ${qtd} BTC por $${custo.toLocaleString('en-US',{minimumFractionDigits:2})} (@${simuladorPrecoAtual.toLocaleString('en-US',{minimumFractionDigits:2})})`);
+          atualizarSaldo(); atualizarHistorico();
+        }
+        function simuladorVender() {
+          const qtd = parseFloat(document.getElementById('simulador-quantidade').value);
+          if (!simuladorPrecoAtual || isNaN(qtd) || qtd <= 0) return alert('Informe uma quantidade válida e aguarde o preço.');
+          const ganho = qtd * simuladorPrecoAtual;
+          simuladorSaldo += ganho;
+          simuladorHistorico.unshift(`🔴 Vendeu ${qtd} BTC por $${ganho.toLocaleString('en-US',{minimumFractionDigits:2})} (@${simuladorPrecoAtual.toLocaleString('en-US',{minimumFractionDigits:2})})`);
+          atualizarSaldo(); atualizarHistorico();
+        }
+        setInterval(atualizarPreco, 5000); atualizarPreco(); atualizarSaldo(); atualizarHistorico();
+      </script>
+    </section>
     <section id="como-funciona" class="container grid-3 steps">
       <div class="step"><h4>1) Assine</h4><p>Escolha um plano e conclua o pagamento.</p></div>
       <div class="step"><h4>2) Acesse</h4><p>O bot te adiciona ao canal privado do Telegram automaticamente.</p></div>
       <div class="step"><h4>3) Receba Sinais</h4><p>Alertas com entrada, SL/TP e motivo — em tempo real.</p></div>
+    </section>
+
+    <!-- SEÇÃO EDUCATIVA -->
+    <section id="educativo" class="container educational-section fade-in" style="background:linear-gradient(135deg,#181c24 0%,#23283b 100%);border-radius:24px;padding:60px 20px;box-shadow:0 8px 32px #000a;">
+      <div class="educational-header" style="background: linear-gradient(90deg,#23283b 0%,#181c24 100%); border-radius: 18px; padding: 40px 20px 30px 20px; box-shadow: 0 8px 32px #23283b44;">
+        <h2 style="font-size:2.7rem;font-weight:900;color:#fff;text-shadow:0 2px 12px #6a11cb80;letter-spacing:-1px;">📚 Aprenda Trading do Zero</h2>
+        <p class="educational-subtitle" style="color:#bfc8e6;font-size:1.25rem;margin-top:10px;">Guias completos para começar no mundo das criptomoedas com segurança</p>
+      </div>
+
+      <div style="margin:40px 0 32px 0;text-align:center;">
+        <!-- TradingView Widget BEGIN -->
+        <div style="max-width:1000px;margin:0 auto;">
+          <div id="tradingview-widget" style="height:400px;border-radius:18px;overflow:hidden;background:#181c24;box-shadow:0 4px 24px #0008;"></div>
+        </div>
+        <script type="text/javascript">
+          if (!window.tradingviewLoaded) {
+            window.tradingviewLoaded = true;
+            var script = document.createElement('script');
+            script.src = "https://s3.tradingview.com/tv.js";
+            script.onload = function() {
+              new TradingView.widget({
+                "width": "100%",
+                "height": 400,
+                "symbol": "BINANCE:BTCUSDT",
+                "interval": "60",
+                "timezone": "America/Sao_Paulo",
+                "theme": "dark",
+                "style": "1",
+                "locale": "br",
+                "toolbar_bg": "#181c24",
+                "enable_publishing": false,
+                "hide_top_toolbar": false,
+                "save_image": false,
+                "container_id": "tradingview-widget"
+              });
+            };
+            document.body.appendChild(script);
+          }
+        </script>
+        <!-- TradingView Widget END -->
+      </div>
+
+      <div class="educational-grid" style="margin-top:40px;">
+        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #007bff22;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
+          <div class="card-icon" style="font-size:3.5rem;color:#007bff;text-shadow:0 2px 12px #007bff44;">🏦</div>
+          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Como Abrir Conta na Binance</h3>
+          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Guia completo passo-a-passo para criar sua conta, fazer verificação KYC e realizar seu primeiro depósito com segurança.</p>
+          <ul class="educational-features" style="margin-bottom:10px;">
+            <li>✅ Cadastro e verificação</li>
+            <li>✅ Configuração de segurança</li>
+            <li>✅ Primeiro depósito</li>
+            <li>✅ Dicas de proteção</li>
+          </ul>
+          <a href="./educativo.html#binance" class="btn btn-educational" style="margin-top:10px;background:#007bff;color:#fff;">Ver Guia</a>
+        </div>
+
+        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #6a11cb22;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
+          <div class="card-icon" style="font-size:3.5rem;color:#6a11cb;text-shadow:0 2px 12px #6a11cb44;">📊</div>
+          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Fundamentos do Trading</h3>
+          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Aprenda os conceitos básicos, terminologia essencial e tipos de operações no mercado de criptomoedas.</p>
+          <ul class="educational-features" style="margin-bottom:10px;">
+            <li>✅ Tipos de trading</li>
+            <li>✅ Análise técnica básica</li>
+            <li>✅ Principais indicadores</li>
+            <li>✅ Terminologia do mercado</li>
+          </ul>
+          <a href="./educativo.html#trading-basics" class="btn btn-educational" style="margin-top:10px;background:#6a11cb;color:#fff;">Ver Guia</a>
+        </div>
+
+        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #28a74522;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
+          <div class="card-icon" style="font-size:3.5rem;color:#28a745;text-shadow:0 2px 12px #28a74544;">🛡️</div>
+          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Gerenciamento de Risco</h3>
+          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Estratégias fundamentais para proteger seu capital e operar com responsabilidade no mercado cripto.</p>
+          <ul class="educational-features" style="margin-bottom:10px;">
+            <li>✅ Regra dos 2%</li>
+            <li>✅ Stop Loss e Take Profit</li>
+            <li>✅ Diversificação</li>
+            <li>✅ Controle emocional</li>
+          </ul>
+          <a href="./educativo.html#risk-management" class="btn btn-educational" style="margin-top:10px;background:#28a745;color:#fff;">Ver Guia</a>
+        </div>
+
+        <div class="educational-card" style="background:linear-gradient(135deg,#23283b 60%,#181c24 100%);box-shadow:0 4px 24px #f39c1222;border-radius:20px;transition:.3s;position:relative;overflow:hidden;">
+          <div class="card-icon" style="font-size:3.5rem;color:#f39c12;text-shadow:0 2px 12px #f39c1244;">🎯</div>
+          <h3 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:10px;">Estratégias de Trading</h3>
+          <p style="color:#bfc8e6;font-size:1.05rem;margin-bottom:18px;">Conheça as principais estratégias utilizadas por traders profissionais, desde DCA até Grid Trading.</p>
+          <ul class="educational-features" style="margin-bottom:10px;">
+            <li>✅ Dollar Cost Average</li>
+            <li>✅ Grid Trading</li>
+            <li>✅ Breakout Trading</li>
+            <li>✅ Swing Trading</li>
+          </ul>
+          <a href="./educativo.html#strategies" class="btn btn-educational" style="margin-top:10px;background:#f39c12;color:#fff;">Ver Guia</a>
+        </div>
+      </div>
+
+      <div class="educational-cta" style="background:linear-gradient(90deg,#23283b 0%,#181c24 100%);border-radius:16px;padding:32px 20px;text-align:center;margin-top:40px;box-shadow:0 4px 24px #0008;">
+        <h3 style="font-size:1.7rem;font-weight:800;color:#fff;margin-bottom:10px;">🚀 Quer Aprender Mais?</h3>
+        <p style="color:#bfc8e6;font-size:1.1rem;margin-bottom:18px;">Acesse nosso guia completo com mais de 50 páginas de conteúdo educativo!</p>
+        <a href="./educativo.html" class="btn btn-educational" style="background:#007bff;color:#fff;font-weight:700;font-size:1.1rem;padding:14px 32px;border-radius:40px;box-shadow:0 2px 12px #007bff22;">📖 Acessar Guia Completo</a>
+      </div>
     </section>
 
     <!-- PLANOS -->

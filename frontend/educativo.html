@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Guia Completo: Binance e Trading de Criptomoedas | CSI Invest</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos profissionais e suaves para a página educativa */
+        .education-header {
+            background: linear-gradient(135deg, #23283b 0%, #181c24 100%);
+            padding: 60px 0 40px 0;
+            text-align: center;
+            color: #e2e8f0;
+            border-radius: 0 0 32px 32px;
+            box-shadow: 0 8px 32px #23283b44;
+        }
+
+        .education-nav {
+            background: #23283b;
+            padding: 18px 0 14px 0;
+            border-bottom: 2px solid #2d3748;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px #23283b22;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-tab {
+            padding: 13px 28px;
+            background: #23283b;
+            border: 2px solid #4299e1;
+            border-radius: 25px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.08rem;
+            letter-spacing: 0.01em;
+            transition: all 0.3s cubic-bezier(.4,0,.2,1);
+            cursor: pointer;
+            box-shadow: 0 2px 8px #23283b11;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: #4299e1;
+            color: #fff;
+            border-color: #4299e1;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px #4299e122;
+        }
+
+        .content-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 44px 24px;
+            display: none;
+            background: linear-gradient(135deg, #23283b 60%, #181c24 100%);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px #23283b44;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s cubic-bezier(.4,0,.2,1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-card {
+            background: rgba(26,32,44,0.92);
+            border-radius: 18px;
+            padding: 32px 28px;
+            margin: 24px 0;
+            box-shadow: 0 8px 32px #4299e122;
+            border-left: 6px solid #4299e1;
+            color: #e2e8f0;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: #4299e1;
+            color: #fff;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 18px;
+            box-shadow: 0 2px 8px #4299e122;
+        }
+
+        .step-title {
+            display: inline-flex;
+            align-items: center;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #e2e8f0;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .warning-box {
+            background: linear-gradient(90deg,#fff3cd 60%,#ffeaa7 100%);
+            border: 1px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 22px 20px;
+            margin: 22px 0;
+            border-left: 6px solid #f39c12;
+            color: #856404;
+            box-shadow: 0 2px 12px #f39c1244;
+        }
+
+        .warning-box .warning-title {
+            font-weight: bold;
+            color: #f39c12;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(90deg,#d4edda 60%,#c3e6cb 100%);
+            border: 1px solid #c3e6cb;
+            border-radius: 12px;
+            padding: 22px 20px;
+            margin: 22px 0;
+            border-left: 6px solid #28a745;
+            color: #155724;
+            box-shadow: 0 2px 12px #28a74544;
+        }
+
+        .tip-box .tip-title {
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .checklist {
+            background: rgba(45,55,72,0.85);
+            border-radius: 12px;
+            padding: 22px 20px;
+            margin: 22px 0;
+            box-shadow: 0 2px 12px #23283b22;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 12px;
+            background: rgba(26,32,44,0.98);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #23283b11;
+            color: #e2e8f0;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 16px;
+            transform: scale(1.3);
+            accent-color: #4299e1;
+        }
+
+        .trading-terms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+            margin: 32px 0;
+        }
+
+        .term-card {
+            background: rgba(26,32,44,0.96);
+            border-radius: 12px;
+            padding: 22px 20px;
+            box-shadow: 0 4px 16px #4299e122;
+            border-top: 5px solid #4299e1;
+            color: #e2e8f0;
+        }
+
+        .term-title {
+            font-weight: bold;
+            color: #4299e1;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin: 44px 0;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px #4299e122;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 44px;
+            background: #e2e8f0;
+            color: #4299e1;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.15rem;
+            margin: 12px;
+            transition: all 0.3s cubic-bezier(.4,0,.2,1);
+            box-shadow: 0 2px 8px #4299e122;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 8px 25px #4299e122;
+            background: #4299e1;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-tab {
+                width: 96%;
+                text-align: center;
+            }
+            .trading-terms {
+                grid-template-columns: 1fr;
+            }
+            .content-section {
+                padding: 24px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Educativo -->
+    <section class="education-header">
+        <div class="container">
+            <h1>📚 Guia Completo de Trading</h1>
+            <p class="lead">Aprenda como abrir sua conta na Binance e operar no mercado de criptomoedas</p>
+            <p>🏆 Do iniciante ao trader profissional</p>
+        </div>
+    </section>
+
+    <!-- Navegação por Abas -->
+    <nav class="education-nav">
+        <div class="nav-tabs">
+            <a href="#" class="nav-tab active" onclick="showSection('binance')">
+                🏦 Como Abrir Conta na Binance
+            </a>
+            <a href="#" class="nav-tab" onclick="showSection('trading-basics')">
+                📊 Fundamentos do Trading
+            </a>
+            <a href="#" class="nav-tab" onclick="showSection('strategies')">
+                🎯 Estratégias de Trading
+            </a>
+            <a href="#" class="nav-tab" onclick="showSection('risk-management')">
+                🛡️ Gerenciamento de Risco
+            </a>
+            <a href="#" class="nav-tab" onclick="showSection('tools')">
+                🔧 Ferramentas e Análises
+            </a>
+        </div>
+    </nav>
+
+    <!-- Seção: Como Abrir Conta na Binance -->
+    <section id="binance" class="content-section active">
+        <h2>🏦 Como Abrir sua Conta na Binance</h2>
+        <p class="lead">A Binance é a maior exchange de criptomoedas do mundo. Siga este guia passo a passo:</p>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Acesse o Site Oficial
+            </div>
+            <p><strong>Link oficial:</strong> <a href="https://www.binance.com" target="_blank">www.binance.com</a></p>
+            <div class="warning-box">
+                <div class="warning-title">⚠️ Atenção!</div>
+                <p>Sempre acesse pelo site oficial. Cuidado com sites falsos que podem roubar suas informações!</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Clique em "Registrar"
+            </div>
+            <p>No canto superior direito, clique no botão "Registrar" ou "Sign Up"</p>
+            <p><strong>Opções de cadastro:</strong></p>
+            <ul>
+                <li>📧 Email + Senha</li>
+                <li>📱 Número de telefone</li>
+                <li>🔗 Contas Google/Apple</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Preencha seus Dados
+            </div>
+            <div class="checklist">
+                <h4>📋 Informações Necessárias:</h4>
+                <div class="checklist-item">
+                    <input type="checkbox" id="email">
+                    <label for="email">Email válido (que você tem acesso)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="senha">
+                    <label for="senha">Senha forte (mínimo 8 caracteres)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="termos">
+                    <label for="termos">Aceitar termos e condições</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="idade">
+                    <label for="idade">Confirmar que é maior de 18 anos</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">4</span>
+                Verificação de Email/SMS
+            </div>
+            <p>A Binance enviará um código de verificação:</p>
+            <ul>
+                <li>📧 <strong>Email:</strong> Verifique sua caixa de entrada e spam</li>
+                <li>📱 <strong>SMS:</strong> Código chegará em alguns segundos</li>
+                <li>⏰ <strong>Tempo:</strong> Código válido por 30 minutos</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">5</span>
+                Verificação de Identidade (KYC)
+            </div>
+            <p>Para sacar e fazer depósitos maiores, complete o KYC:</p>
+            
+            <h4>📄 Documentos Aceitos:</h4>
+            <ul>
+                <li>🆔 <strong>RG</strong> (frente e verso)</li>
+                <li>📄 <strong>CNH</strong> (frente e verso)</li>
+                <li>📖 <strong>Passaporte</strong> (página principal)</li>
+            </ul>
+
+            <h4>🤳 Selfie com Documento:</h4>
+            <ul>
+                <li>Foto clara do seu rosto</li>
+                <li>Segurando o documento escolhido</li>
+                <li>Boa iluminação</li>
+                <li>Sem óculos ou acessórios</li>
+            </ul>
+
+            <div class="tip-box">
+                <div class="tip-title">💡 Dica Importante</div>
+                <p>A verificação pode levar de alguns minutos até 24 horas. Seja paciente e envie fotos com boa qualidade!</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">6</span>
+                Configurar Segurança
+            </div>
+            <h4>🔒 Medidas de Segurança Essenciais:</h4>
+            <div class="checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" id="2fa">
+                    <label for="2fa"><strong>2FA (Autenticação de 2 Fatores)</strong> - Google Authenticator</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sms-security">
+                    <label for="sms-security"><strong>SMS de Segurança</strong> - Para saques</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="whitelist">
+                    <label for="whitelist"><strong>Whitelist de Endereços</strong> - Endereços confiáveis</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anti-phishing">
+                    <label for="anti-phishing"><strong>Código Anti-Phishing</strong> - Proteção contra emails falsos</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">7</span>
+                Primeiro Depósito
+            </div>
+            <h4>💳 Formas de Depósito no Brasil:</h4>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">🏦 PIX</div>
+                    <p><strong>Mais rápido e barato</strong></p>
+                    <ul>
+                        <li>✅ Instantâneo (até 30min)</li>
+                        <li>✅ Taxa baixa (~1%)</li>
+                        <li>✅ Disponível 24h</li>
+                    </ul>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">💳 Cartão de Crédito</div>
+                    <p><strong>Mais conveniente</strong></p>
+                    <ul>
+                        <li>⚡ Instantâneo</li>
+                        <li>⚠️ Taxa maior (~3-4%)</li>
+                        <li>📝 Alguns bancos bloqueiam</li>
+                    </ul>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">🏛️ TED/DOC</div>
+                    <p><strong>Transferência tradicional</strong></p>
+                    <ul>
+                        <li>⏰ 1-3 dias úteis</li>
+                        <li>✅ Taxa baixa</li>
+                        <li>📋 Precisa de comprovante</li>
+                    </ul>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">🤝 P2P</div>
+                    <p><strong>Pessoa para pessoa</strong></p>
+                    <ul>
+                        <li>💰 Melhores taxas</li>
+                        <li>🛡️ Binance como mediador</li>
+                        <li>⏰ Varia por vendedor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <div class="warning-title">🚨 IMPORTANTE - Segurança</div>
+            <ul>
+                <li>🔐 <strong>Nunca compartilhe</strong> suas senhas ou códigos 2FA</li>
+                <li>📧 <strong>Binance nunca pede</strong> senha por email ou telefone</li>
+                <li>🔗 <strong>Sempre confira</strong> se está no site oficial</li>
+                <li>💾 <strong>Anote suas chaves</strong> de recuperação em local seguro</li>
+                <li>🚫 <strong>Não faça trading</strong> com dinheiro que não pode perder</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Seção: Fundamentos do Trading -->
+    <section id="trading-basics" class="content-section">
+        <h2>📊 Fundamentos do Trading de Criptomoedas</h2>
+        
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                O que é Trading?
+            </div>
+            <p>Trading é a <strong>compra e venda</strong> de ativos (criptomoedas) com o objetivo de <strong>lucrar</strong> com as variações de preço.</p>
+            
+            <h4>📈 Tipos de Trading:</h4>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">⚡ Scalping</div>
+                    <p><strong>Segundos/Minutos</strong></p>
+                    <p>Operações muito rápidas aproveitando pequenas variações</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">📅 Day Trade</div>
+                    <p><strong>Horas/Intraday</strong></p>
+                    <p>Operações que abrem e fecham no mesmo dia</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">📊 Swing Trade</div>
+                    <p><strong>Dias/Semanas</strong></p>
+                    <p>Operações de médio prazo aproveitando tendências</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">💎 Position Trade</div>
+                    <p><strong>Meses/Anos</strong></p>
+                    <p>Operações de longo prazo, "buy and hold"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Principais Criptomoedas
+            </div>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">₿ Bitcoin (BTC)</div>
+                    <p>A primeira e maior criptomoeda do mundo</p>
+                    <p><strong>Características:</strong> "Ouro digital", reserva de valor</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Ξ Ethereum (ETH)</div>
+                    <p>Plataforma de contratos inteligentes</p>
+                    <p><strong>Características:</strong> Base para DeFi e NFTs</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">₮ Tether (USDT)</div>
+                    <p>Stablecoin pareada com o dólar</p>
+                    <p><strong>Características:</strong> Estabilidade, usado para trading</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">🪙 BNB</div>
+                    <p>Token nativo da Binance</p>
+                    <p><strong>Características:</strong> Desconto em taxas, utilidades</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Terminologia Essencial
+            </div>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">📈 Bull Market</div>
+                    <p>Mercado em alta, tendência de subida dos preços</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">📉 Bear Market</div>
+                    <p>Mercado em baixa, tendência de queda dos preços</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">📊 Bid/Ask</div>
+                    <p><strong>Bid:</strong> Maior preço de compra<br><strong>Ask:</strong> Menor preço de venda</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">💹 Volume</div>
+                    <p>Quantidade de moedas negociadas em um período</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">💰 Market Cap</div>
+                    <p>Valor total de mercado da criptomoeda</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">🕯️ Candlestick</div>
+                    <p>Gráfico que mostra abertura, fechamento, máxima e mínima</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Estratégias de Trading -->
+    <section id="strategies" class="content-section">
+        <h2>🎯 Estratégias de Trading Populares</h2>
+        
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Análise Técnica
+            </div>
+            <p>Estudo dos gráficos e padrões para prever movimentos futuros dos preços.</p>
+            
+            <h4>📊 Indicadores Principais:</h4>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">📈 Médias Móveis</div>
+                    <p><strong>MA 20, 50, 200</strong></p>
+                    <p>Indicam tendência e pontos de entrada/saída</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">⚡ RSI</div>
+                    <p><strong>Relative Strength Index</strong></p>
+                    <p>Identifica sobrecompra (>70) e sobrevenda (<30)</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">📊 MACD</div>
+                    <p><strong>Convergência/Divergência</strong></p>
+                    <p>Mostra mudanças na força da tendência</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">🎯 Support/Resistance</div>
+                    <p><strong>Suporte e Resistência</strong></p>
+                    <p>Níveis onde o preço tende a parar ou reverter</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Estratégia DCA (Dollar Cost Average)
+            </div>
+            <p>Comprar uma quantidade fixa regularmente, independente do preço.</p>
+            
+            <div class="tip-box">
+                <div class="tip-title">💡 Exemplo de DCA</div>
+                <p>Comprar R$ 100 de Bitcoin todo dia 15 do mês, por 12 meses.</p>
+                <p><strong>Vantagem:</strong> Reduz impacto da volatilidade</p>
+                <p><strong>Ideal para:</strong> Investidores iniciantes e de longo prazo</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Grid Trading (Grade)
+            </div>
+            <p>Colocar múltiplas ordens de compra e venda em intervalos regulares.</p>
+            
+            <h4>🔢 Como Funciona:</h4>
+            <ul>
+                <li>Define-se um range de preço (ex: BTC entre $40k - $50k)</li>
+                <li>Coloca ordens de compra a cada $1k para baixo</li>
+                <li>Coloca ordens de venda a cada $1k para cima</li>
+                <li>Lucra com a volatilidade dentro do range</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">4</span>
+                Breakout Trading
+            </div>
+            <p>Entrar em posições quando o preço quebra níveis importantes.</p>
+            
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">⬆️ Breakout de Alta</div>
+                    <p>Preço quebra resistência → Sinal de compra</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">⬇️ Breakout de Baixa</div>
+                    <p>Preço quebra suporte → Sinal de venda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Gerenciamento de Risco -->
+    <section id="risk-management" class="content-section">
+        <h2>🛡️ Gerenciamento de Risco</h2>
+        
+        <div class="warning-box">
+            <div class="warning-title">⚠️ REGRA DE OURO</div>
+            <p><strong>Nunca invista mais do que pode perder!</strong></p>
+            <p>Criptomoedas são voláteis e podem resultar em perdas significativas.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Regra dos 2%
+            </div>
+            <p>Nunca arrisque mais de <strong>2% do seu capital</strong> em uma única operação.</p>
+            
+            <div class="tip-box">
+                <div class="tip-title">💡 Exemplo Prático</div>
+                <p><strong>Capital:</strong> R$ 10.000</p>
+                <p><strong>Risco por trade:</strong> R$ 200 (2%)</p>
+                <p><strong>Se tiver 10 perdas seguidas:</strong> Perda de apenas 20%</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Stop Loss e Take Profit
+            </div>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">🛑 Stop Loss</div>
+                    <p><strong>Ordem automática de venda</strong></p>
+                    <p>Limita suas perdas quando o preço vai contra você</p>
+                    <p><strong>Exemplo:</strong> Comprou BTC a $45k, stop loss em $43k</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">🎯 Take Profit</div>
+                    <p><strong>Ordem automática de venda</strong></p>
+                    <p>Garante seus lucros quando atingir meta</p>
+                    <p><strong>Exemplo:</strong> Comprou BTC a $45k, take profit em $48k</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Diversificação
+            </div>
+            <p>Não concentre todo seu investimento em uma única criptomoeda.</p>
+            
+            <h4>📊 Sugestão de Portfolio Iniciante:</h4>
+            <div class="checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" id="btc-40">
+                    <label for="btc-40"><strong>40% Bitcoin (BTC)</strong> - Base sólida</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="eth-30">
+                    <label for="eth-30"><strong>30% Ethereum (ETH)</strong> - Tecnologia</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="alt-20">
+                    <label for="alt-20"><strong>20% Altcoins</strong> - BNB, ADA, DOT, etc</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="stable-10">
+                    <label for="stable-10"><strong>10% Stablecoins</strong> - USDT, USDC para oportunidades</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">4</span>
+                Controle Emocional
+            </div>
+            <h4>😨 Erros Comuns por Emoção:</h4>
+            <ul>
+                <li>🚫 <strong>FOMO (Fear of Missing Out):</strong> Comprar no topo por medo de perder</li>
+                <li>🚫 <strong>FUD (Fear, Uncertainty, Doubt):</strong> Vender no fundo por pânico</li>
+                <li>🚫 <strong>Ganância:</strong> Não realizar lucros esperando mais</li>
+                <li>🚫 <strong>Revenge Trading:</strong> Tentar recuperar perdas com trades maiores</li>
+            </ul>
+
+            <div class="tip-box">
+                <div class="tip-title">💡 Dicas para Controle</div>
+                <ul>
+                    <li>📝 Tenha um plano antes de entrar no trade</li>
+                    <li>📊 Use ordens automáticas (stop/take profit)</li>
+                    <li>📰 Mantenha-se informado, mas não reaja a cada notícia</li>
+                    <li>🧘 Pratique mindfulness e controle emocional</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Ferramentas e Análises -->
+    <section id="tools" class="content-section">
+        <h2>🔧 Ferramentas e Recursos para Trading</h2>
+        
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Plataformas de Trading
+            </div>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">📱 Binance App</div>
+                    <p><strong>Trading mobile completo</strong></p>
+                    <p>✅ Gráficos avançados<br>✅ Ordens automáticas<br>✅ Notificações em tempo real</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">💻 TradingView</div>
+                    <p><strong>Análise técnica profissional</strong></p>
+                    <p>✅ Indicadores avançados<br>✅ Alertas personalizados<br>✅ Comunidade de traders</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">📊 CoinGecko</div>
+                    <p><strong>Dados de mercado</strong></p>
+                    <p>✅ Preços em tempo real<br>✅ Market cap<br>✅ Notícias do mercado</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Calculadoras Úteis
+            </div>
+            <div class="trading-terms">
+                <div class="term-card">
+                    <div class="term-title">🧮 Calculadora de Posição</div>
+                    <p>Calcular tamanho ideal da posição baseado no risco</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">📈 Risk/Reward Ratio</div>
+                    <p>Proporção entre lucro potencial e perda máxima</p>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">💰 Calculadora de Lucro/Perda</div>
+                    <p>Simular resultados antes de fazer o trade</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Fontes de Informação
+            </div>
+            <h4>📰 Sites de Notícias Confiáveis:</h4>
+            <ul>
+                <li>🌐 <strong>CoinTelegraph:</strong> Notícias globais de crypto</li>
+                <li>🇧🇷 <strong>Livecoins:</strong> Notícias em português</li>
+                <li>📊 <strong>CryptoCompare:</strong> Dados e análises</li>
+                <li>🐦 <strong>Twitter:</strong> Seguir influencers e projetos</li>
+            </ul>
+
+            <h4>📺 Canais Educativos:</h4>
+            <ul>
+                <li>📺 <strong>YouTube:</strong> Análises técnicas diárias</li>
+                <li>🎧 <strong>Podcasts:</strong> Discussões aprofundadas</li>
+                <li>📚 <strong>Cursos Online:</strong> Binance Academy, Coursera</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-title">
+                <span class="step-number">4</span>
+                Monitoramento de Mercado
+            </div>
+            <div class="tip-box">
+                <div class="tip-title">💡 Métricas Importantes</div>
+                <ul>
+                    <li>📊 <strong>Market Cap Total:</strong> Saúde geral do mercado</li>
+                    <li>😱 <strong>Fear & Greed Index:</strong> Sentimento do mercado</li>
+                    <li>🐋 <strong>Whale Movements:</strong> Movimentações de grandes investidores</li>
+                    <li>📈 <strong>Volume 24h:</strong> Liquidez e interesse</li>
+                    <li>👑 <strong>Dominância BTC:</strong> Força do Bitcoin vs Altcoins</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <h2>🚀 Pronto para Começar seu Trading?</h2>
+        <p class="lead">Junte-se à nossa comunidade de traders e receba sinais profissionais diariamente!</p>
+        
+        <a href="/" class="cta-button">
+            📊 Ver Nossos Planos
+        </a>
+        <a href="/admin.html" class="cta-button">
+            🔐 Área do Aluno
+        </a>
+        
+        <div style="margin-top: 30px;">
+            <p>💡 <strong>Lembre-se:</strong> Trading envolve riscos. Sempre faça sua própria pesquisa!</p>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script>
+        function showSection(sectionId) {
+            // Esconder todas as seções
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remover classe active de todas as abas
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar seção selecionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Adicionar classe active na aba clicada
+            event.target.classList.add('active');
+            
+            // Scroll para o topo da seção
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Funcionalidade para checkboxes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Salvar estado dos checkboxes no localStorage
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            checkboxes.forEach(checkbox => {
+                // Carregar estado salvo
+                const saved = localStorage.getItem(checkbox.id);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                }
+                
+                // Salvar quando mudar
+                checkbox.addEventListener('change', function() {
+                    localStorage.setItem(this.id, this.checked);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

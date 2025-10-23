@@ -1,3 +1,4 @@
+          <div id="login-error" class="login-error" style="display:none;">❌ Falha no login! Verifique suas credenciais.</div>
 <!doctype html>
 <html lang="pt-BR">
   <head>
@@ -11,7 +12,6 @@
   <body class="container">
     <div class="admin fade-in">
       <h1>🚀 Admin — Sala de Sinais PRO</h1>
-      
       <div id="auth" class="section-card">
         <div class="grid">
           <div class="full form-group">
@@ -27,6 +27,7 @@
           <button id="btn-login" class="btn btn-primary">
             🚪 Entrar
           </button>
+          <div id="login-error" style="display:none;color:#ff4444;font-weight:bold;margin-top:10px;text-align:center;">❌ Falha no login! Verifique suas credenciais.</div>
         </div>
       </div>
 
@@ -188,6 +189,122 @@
             <tbody id="users"></tbody>
           </table>
         </div>
+
+        <!-- Seção de Tutoriais -->
+        <div class="section-card">
+          <h3>📚 Central de Conteúdo Educativo</h3>
+          
+          <div class="tutorial-stats">
+            <div class="stat-card">
+              <div class="stat-icon">👥</div>
+              <div class="stat-info">
+                <div class="stat-number" id="studentsCount">0</div>
+                <div class="stat-label">Usuários Ativos</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📖</div>
+              <div class="stat-info">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Guias Disponíveis</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⏰</div>
+              <div class="stat-info">
+                <div class="stat-number">2h</div>
+                <div class="stat-label">Tempo Total</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tutorial-actions">
+            <div class="tutorial-section">
+              <h4>🎯 Ações Rápidas</h4>
+              <div class="tutorial-buttons">
+                <a href="./educativo.html" target="_blank" class="btn btn-primary">
+                  📖 Visualizar Guia Completo
+                </a>
+                <button id="btn-notify-users" class="btn btn-accent">
+                  📢 Notificar Novos Conteúdos
+                </button>
+                <button id="btn-analytics" class="btn btn-ghost">
+                  📊 Ver Estatísticas de Acesso
+                </button>
+              </div>
+            </div>
+
+            <div class="tutorial-section">
+              <h4>📈 Conteúdos Educativos</h4>
+              <div class="content-grid">
+                <div class="content-item">
+                  <div class="content-icon">🏦</div>
+                  <div class="content-info">
+                    <h5>Como Abrir Conta na Binance</h5>
+                    <p>Guia completo passo-a-passo</p>
+                    <span class="content-status active">✅ Ativo</span>
+                  </div>
+                </div>
+                
+                <div class="content-item">
+                  <div class="content-icon">📊</div>
+                  <div class="content-info">
+                    <h5>Fundamentos do Trading</h5>
+                    <p>Conceitos básicos e terminologia</p>
+                    <span class="content-status active">✅ Ativo</span>
+                  </div>
+                </div>
+                
+                <div class="content-item">
+                  <div class="content-icon">🛡️</div>
+                  <div class="content-info">
+                    <h5>Gerenciamento de Risco</h5>
+                    <p>Estratégias de proteção do capital</p>
+                    <span class="content-status active">✅ Ativo</span>
+                  </div>
+                </div>
+                
+                <div class="content-item">
+                  <div class="content-icon">🎯</div>
+                  <div class="content-info">
+                    <h5>Estratégias de Trading</h5>
+                    <p>Técnicas profissionais</p>
+                    <span class="content-status active">✅ Ativo</span>
+                  </div>
+                </div>
+                
+                <div class="content-item">
+                  <div class="content-icon">🔧</div>
+                  <div class="content-info">
+                    <h5>Ferramentas e Análises</h5>
+                    <p>Recursos para traders</p>
+                    <span class="content-status active">✅ Ativo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tutorial-section">
+              <h4>📬 Notificação via Telegram</h4>
+              <div class="notification-form">
+                <textarea id="notificationMessage" placeholder="Digite a mensagem sobre novos conteúdos educativos..." rows="3"></textarea>
+                <div class="notification-options">
+                  <label>
+                    <input type="checkbox" id="notifyAllUsers" checked>
+                    📢 Enviar para todos os usuários ativos
+                  </label>
+                  <label>
+                    <input type="checkbox" id="includeLink">
+                    🔗 Incluir link para guia completo
+                  </label>
+                </div>
+                <button id="btn-send-notification" class="btn btn-success">
+                  🚀 Enviar Notificação
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script>
@@ -206,8 +323,11 @@
           document.getElementById('auth').classList.add('hidden')
           document.getElementById('panel').classList.remove('hidden')
           document.getElementById('panel').classList.add('fade-in')
+          document.getElementById('login-error').style.display = 'none'
           loadUsers()
-        }else alert('❌ Falha no login! Verifique suas credenciais.')
+        }else{
+          document.getElementById('login-error').style.display = 'block'
+        }
       }
       async function loadUsers(){
         const r = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer '+token } })
@@ -627,6 +747,95 @@
               testTelegramIdInput.style.display = 'none'
             }
           })
+        }
+
+        // Funcionalidades da seção de tutoriais
+        const btnNotifyUsers = document.getElementById('btn-notify-users')
+        const btnAnalytics = document.getElementById('btn-analytics')
+        const btnSendNotification = document.getElementById('btn-send-notification')
+        const studentsCountElement = document.getElementById('studentsCount')
+
+        // Atualizar contador de usuários ativos
+        function updateStudentsCount() {
+          const activeUsers = document.querySelectorAll('#users tr').length
+          if (studentsCountElement) {
+            studentsCountElement.textContent = activeUsers
+          }
+        }
+
+        // Notificar usuários sobre novos conteúdos
+        if (btnNotifyUsers) {
+          btnNotifyUsers.addEventListener('click', function() {
+            const message = "📚 Novos conteúdos educativos disponíveis!\n\n🎯 Guias atualizados sobre:\n• Como abrir conta na Binance\n• Fundamentos do Trading\n• Gerenciamento de Risco\n• Estratégias Profissionais\n\n🔗 Acesse: " + window.location.origin + "/educativo.html\n\n💎 CSI Invest - Sua educação em primeiro lugar!"
+            document.getElementById('notificationMessage').value = message
+            document.getElementById('includeLink').checked = true
+          })
+        }
+
+        // Visualizar analytics
+        if (btnAnalytics) {
+          btnAnalytics.addEventListener('click', function() {
+            alert('📊 Analytics em desenvolvimento!\n\nEm breve você poderá ver:\n• Páginas mais acessadas\n• Tempo de permanência\n• Conclusão de tutoriais\n• Feedback dos usuários')
+          })
+        }
+
+        // Enviar notificação via Telegram
+        if (btnSendNotification) {
+          btnSendNotification.addEventListener('click', async function() {
+            const message = document.getElementById('notificationMessage').value
+            const notifyAll = document.getElementById('notifyAllUsers').checked
+            const includeLink = document.getElementById('includeLink').checked
+
+            if (!message.trim()) {
+              alert('⚠️ Digite uma mensagem para enviar!')
+              return
+            }
+
+            btnSendNotification.disabled = true
+            btnSendNotification.textContent = '📤 Enviando...'
+
+            try {
+              let finalMessage = message
+              if (includeLink && !message.includes('educativo.html')) {
+                finalMessage += '\n\n🔗 Guia Completo: ' + window.location.origin + '/educativo.html'
+              }
+
+              // Se notificar todos, enviar para o canal principal
+              const response = await fetch('/api/telegram/send-message', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                  message: finalMessage,
+                  type: notifyAll ? 'channel' : 'private'
+                })
+              })
+
+              const result = await response.json()
+              
+              if (result.ok) {
+                alert('✅ Notificação enviada com sucesso!')
+                document.getElementById('notificationMessage').value = ''
+              } else {
+                alert('❌ Erro ao enviar notificação: ' + (result.error || 'Verifique as configurações'))
+              }
+            } catch (error) {
+              alert('❌ Erro ao enviar notificação: ' + error.message)
+              console.error('Erro:', error)
+            } finally {
+              btnSendNotification.disabled = false
+              btnSendNotification.textContent = '🚀 Enviar Notificação'
+            }
+          })
+        }
+
+        // Modificar a função loadUsers original para atualizar o contador
+        const originalLoadUsersFunction = loadUsers
+        loadUsers = async function() {
+          await originalLoadUsersFunction()
+          updateStudentsCount()
         }
 
         // Carregar dados iniciais
