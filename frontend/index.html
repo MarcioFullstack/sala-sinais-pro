@@ -65,16 +65,23 @@
 
     <!-- LEAD CAPTURE -->
     <section id="captura" class="lead-capture container fade-in">
-      <h3>🎯 Comece com 7 Dias Grátis!</h3>
-      <p>Cadastre-se agora e receba sinais profissionais no seu Telegram por <strong>7 dias gratuitamente</strong>. Sem compromisso!</p>
-      
-      <form class="lead-form" id="leadForm">
-        <input type="email" id="leadEmail" placeholder="📧 Seu melhor e-mail" required>
-        <input type="text" id="leadName" placeholder="👤 Seu nome" required>
-        <button type="submit" class="btn btn-primary">🚀 Começar Grátis</button>
+      <h3 class="lead-title">🎯 Comece com 7 Dias Grátis!</h3>
+      <p class="lead-desc">Cadastre-se agora e receba sinais profissionais no seu Telegram por <strong>7 dias gratuitamente</strong>. Sem compromisso!</p>
+      <form class="lead-form" id="leadForm" autocomplete="on" aria-label="Preencha seus Dados">
+        <fieldset class="lead-fieldset">
+          <legend class="lead-legend"><span class="lead-legend-icon">📝</span> Preencha seus Dados</legend>
+          <div class="form-group">
+            <label for="leadEmail"><span class="form-icon">📧</span> Seu melhor e-mail</label>
+            <input type="email" id="leadEmail" name="leadEmail" placeholder="exemplo@email.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="leadName"><span class="form-icon">👤</span> Seu nome completo</label>
+            <input type="text" id="leadName" name="leadName" placeholder="Seu nome" required autocomplete="name">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">🚀 Começar Grátis</button>
+        </fieldset>
       </form>
-      
-      <p class="muted">✅ Sem cartão de crédito • ✅ Cancelar a qualquer momento • ✅ Suporte 24h</p>
+      <p class="muted lead-benefits">✅ Sem cartão de crédito • ✅ Cancelar a qualquer momento • ✅ Suporte 24h</p>
     </section>
 
     <section id="como-funciona" class="container grid-3 steps">

@@ -1,3 +1,113 @@
+/* LEAD CAPTURE - MELHORADO */
+.lead-capture {
+  background: var(--card);
+  border: 2px solid var(--primary);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 60px auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  align-self: center;
+}
+.lead-title {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: var(--primary);
+}
+.lead-desc {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0 auto 0 auto;
+  align-items: stretch;
+}
+.lead-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.lead-legend {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lead-legend-icon {
+  font-size: 1.5rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.form-group label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.form-icon {
+  font-size: 1.2rem;
+}
+.lead-form input {
+  padding: 12px 16px;
+  border: 2px solid rgba(66, 153, 225, 0.3);
+  border-radius: 8px;
+  background: rgba(14, 19, 32, 0.8);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+.lead-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-ghost);
+}
+.btn-block {
+  width: 100%;
+  display: block;
+  margin-top: 10px;
+}
+.lead-benefits {
+  margin-top: 18px;
+  font-size: 1rem;
+  color: var(--muted);
+}
+@media (max-width: 700px) {
+  .lead-capture {
+    padding: 18px 6px;
+    border-radius: 10px;
+    max-width: 98vw;
+  }
+  .lead-title {
+    font-size: 1.2rem;
+  }
+  .lead-desc {
+    font-size: 1rem;
+  }
+  .lead-form input {
+    font-size: 0.98rem;
+    padding: 10px 8px;
+  }
+  .btn-block {
+    font-size: 1rem;
+    padding: 12px 10px;
+  }
+}
 /* EDUCATIVO - NOVOS ESTILOS */
 .educational-section {
   background: linear-gradient(135deg,#181c24 0%,#23283b 100%);
