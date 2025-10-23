@@ -1,3 +1,53 @@
+/* CHECKLIST - FORMULÁRIO */
+.checklist {
+  background: rgba(45,55,72,0.12);
+  border-radius: 12px;
+  padding: 18px 12px;
+  margin: 18px 0 10px 0;
+  box-shadow: 0 2px 8px #23283b22;
+}
+.checklist-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+.checklist-item input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  margin-right: 4px;
+}
+.checklist-item label {
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .checklist {
+    padding: 10px 4px;
+    border-radius: 8px;
+  }
+  .checklist-title {
+    font-size: 1rem;
+  }
+  .checklist-item {
+    font-size: 0.98rem;
+    gap: 7px;
+  }
+  .checklist-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+}
 /* LEAD CAPTURE - MELHORADO */
 .lead-capture {
   background: var(--card);
