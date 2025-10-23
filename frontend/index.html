@@ -183,28 +183,11 @@
       </div>
 
       <div style="margin:40px 0 32px 0;text-align:center;">
-        <!-- TradingView Widget + Simulador Educativo BEGIN -->
+        <!-- TradingView Widget BEGIN -->
         <div style="max-width:1000px;margin:0 auto;">
           <div id="educativo-tradingview" style="height:340px;border-radius:18px;overflow:hidden;background:#181c24;box-shadow:0 4px 24px #0008;"></div>
         </div>
-        <div class="simulador-panel" style="background:rgba(26,32,44,0.92);border-radius:18px;padding:24px 12px;box-shadow:0 4px 24px #4299e122;margin:18px auto 0 auto;max-width:500px;">
-          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;margin-bottom:12px;">
-            <span style="font-weight:700;color:#e2e8f0;">Saldo virtual:</span>
-            <span id="educativo-saldo" style="font-size:1.1rem;font-weight:800;color:#48bb78;">$5,000.00</span>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin-bottom:12px;">
-            <input id="educativo-quantidade" type="number" min="0.0001" step="0.0001" value="0.01" style="padding:7px 10px;border-radius:8px;border:1px solid #4299e1;background:#23283b;color:#e2e8f0;width:100px;" placeholder="Qtd BTC">
-            <button class="btn btn-primary" onclick="educativoComprar()">Comprar BTC</button>
-            <button class="btn btn-accent" onclick="educativoVender()">Vender BTC</button>
-          </div>
-          <div style="text-align:center;color:#a0aec0;font-size:0.98rem;margin-bottom:8px;">Preço atual: <span id="educativo-preco">Carregando...</span> USDT</div>
-        </div>
-        <div class="simulador-historico" style="background:rgba(45,55,72,0.85);border-radius:14px;padding:12px 10px;box-shadow:0 2px 12px #23283b22;max-width:500px;margin:10px auto 0 auto;">
-          <h4 style="color:#e2e8f0;font-size:1rem;font-weight:700;margin-bottom:8px;">Histórico de Operações</h4>
-          <ul id="educativo-historico-lista" style="list-style:none;padding:0;margin:0;color:#e2e8f0;font-size:0.97rem;"></ul>
-        </div>
         <script type="text/javascript">
-          // TradingView Widget para Educativo
           if (!window.educativoTradingViewLoaded) {
             window.educativoTradingViewLoaded = true;
             var script = document.createElement('script');
@@ -228,45 +211,8 @@
             };
             document.body.appendChild(script);
           }
-          // Simulador Educativo lógica
-          let educativoSaldo = 5000.00;
-          let educativoHistorico = [];
-          let educativoPrecoAtual = 0;
-          function atualizarEducativoSaldo() {
-            document.getElementById('educativo-saldo').textContent = `$${educativoSaldo.toLocaleString('en-US', {minimumFractionDigits:2})}`;
-          }
-          function atualizarEducativoHistorico() {
-            const lista = document.getElementById('educativo-historico-lista');
-            lista.innerHTML = educativoHistorico.length ? educativoHistorico.map(item => `<li style='margin-bottom:5px;'>${item}</li>`).join('') : '<li style="color:#a0aec0;">Nenhuma operação realizada ainda.</li>';
-          }
-          function atualizarEducativoPreco() {
-            fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
-              .then(r=>r.json())
-              .then(data=>{
-                educativoPrecoAtual = parseFloat(data.price);
-                document.getElementById('educativo-preco').textContent = educativoPrecoAtual.toLocaleString('en-US', {minimumFractionDigits:2});
-              });
-          }
-          function educativoComprar() {
-            const qtd = parseFloat(document.getElementById('educativo-quantidade').value);
-            if (!educativoPrecoAtual || isNaN(qtd) || qtd <= 0) return alert('Informe uma quantidade válida e aguarde o preço.');
-            const custo = qtd * educativoPrecoAtual;
-            if (custo > educativoSaldo) return alert('Saldo insuficiente.');
-            educativoSaldo -= custo;
-            educativoHistorico.unshift(`🟢 Comprou ${qtd} BTC por $${custo.toLocaleString('en-US',{minimumFractionDigits:2})} (@${educativoPrecoAtual.toLocaleString('en-US',{minimumFractionDigits:2})})`);
-            atualizarEducativoSaldo(); atualizarEducativoHistorico();
-          }
-          function educativoVender() {
-            const qtd = parseFloat(document.getElementById('educativo-quantidade').value);
-            if (!educativoPrecoAtual || isNaN(qtd) || qtd <= 0) return alert('Informe uma quantidade válida e aguarde o preço.');
-            const ganho = qtd * educativoPrecoAtual;
-            educativoSaldo += ganho;
-            educativoHistorico.unshift(`🔴 Vendeu ${qtd} BTC por $${ganho.toLocaleString('en-US',{minimumFractionDigits:2})} (@${educativoPrecoAtual.toLocaleString('en-US',{minimumFractionDigits:2})})`);
-            atualizarEducativoSaldo(); atualizarEducativoHistorico();
-          }
-          setInterval(atualizarEducativoPreco, 5000); atualizarEducativoPreco(); atualizarEducativoSaldo(); atualizarEducativoHistorico();
         </script>
-        <!-- TradingView Widget + Simulador Educativo END -->
+        <!-- TradingView Widget END -->
       </div>
 
       <div class="educational-grid" style="margin-top:40px;">
